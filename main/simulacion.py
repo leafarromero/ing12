@@ -90,7 +90,7 @@ class Formulas:
 
 class Yacimiento:
     def __init__(self):
-        #Habría que pasarle los parametros con los que se construye
+        #Habria que pasarle los parametros con los que se construye
         self.parcelas = [] 
         self.volumen = 0
         self.porcentajeProducto = 100
@@ -137,19 +137,19 @@ class Parcela:
         self.yacimiento.extraer(producto)
         return producto
 
-    def reinyectarAgua(cantAgua)
+    def reinyectarAgua(cantAgua):
         #Cambiar presion
         #TODO
         self.yacimiento.reinyectarAgua(cantAgua)
 
 
-    def reinyectarGas(cantGas)
+    def reinyectarGas(cantGas):
         #Cambiar presion
         #TODO
         self.yacimiento.reinyectarGas(cantGas)
 
 
-class pozo:
+class Pozo:
     def __init__(self, parcela):
         self.parcela = parcela
 
@@ -166,3 +166,60 @@ class pozo:
     def reinyectarAgua(cantAgua):
         #El extractor hace la verificacion si se puede reinyectar de acuerdo a las estructuras disponibles
         self.parcela.reinyectarAgua(cantAgua)
+
+class Bombeador:
+    def __init__(self,tanquesAgua,tanquesGas,plantasSeparadoras):
+        self.tanquesAgua
+        self.tanquesGas
+        self.plantasSeparadoras
+    
+    def extraer (pozos):
+        for poz in pozos:
+            materialesSeparados = self.procesar(poz.extraer())
+            self.almacenarAgua(materialesSeparados.litrosDeAgua)
+            self.almacenarGas(materialesSeparados.litrosDeGas)
+            self.vender(materialesSeparados.litrosDePetroleo)
+    
+    def procesar (self,composicionDeCrudo,litrosDeCrudo):
+        materialesSeparados = MaterialesSeparados(0,0,0)
+        
+        for planta in (self.plantasSeparadoras):
+            cant = min(cantidadQuePuedeProcesar(planta),litrosDeCrudo)
+            if cant!=0:
+                materialesSeparados = agregar(materialesSeparados, planta.procesar(composicionDeCrudo,cant))
+                litrosDeCrudo = litrosDeCrudo - cant
+            if litrosDeCrudo==0:
+                break
+        return materialesSeparados
+   
+    def almacenarGas(self,litrosDeGas):
+        for tanq in self.tanquesGas:
+            cant = min(cantidadQuePuedeAlmacenar(tanq),litrosDeGas)
+            if cant!=0:
+                tanq.almacenar(composicionDeCrudo,cant)
+                litrosDeCrudo = litrosDeCrudo - cant
+            if litrosDeCrudo==0:
+                break
+
+    def almacenarAgua(self,litrosDeAgua):
+        for tanq in self.tanquesAgua:
+            cant = min(cantidadQuePuedeAlmacenar(tanq),litrosDeAgua)
+            if cant!=0:
+                tanq.almacenar(composicionDeCrudo,cant)
+                litrosDeCrudo = litrosDeCrudo - cant
+            if litrosDeCrudo==0:
+                break
+
+
+
+class MaterialesSeparados:
+    def __init__(self,litrosDeAgua,litrosDeGas,litrosDePetroleo):
+        self.litrosDeAgua = litrosDeAgua
+        self.litrosDeGas = litrosDeGas
+        self.litrosDePetroleo = litrosDePetroleo
+
+    def agregar(otrosMaterialesSeparados):
+        litrosDeAgua = self.litrosDeAgua + otrosMaterialesSeparados.litrosDeAgua
+        litrosDeGas = self.litrosDeGas + otrosMaterialesSeparados.litrosDeGas
+        litrosDePetroleo = self.litrosDePetroleo + otrosMaterialesSeparados.litrosDePetroleo
+        return MaterialesSeparados(litrosDeAgua,litrosDeGas,litrosDePetroleo)
