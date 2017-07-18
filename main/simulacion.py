@@ -27,7 +27,7 @@ class Excavacion:
     def excavar(self,metros):
         self.metrosExcavados = self.metrosExcavados + metros
         if (self.metrosRestantes())<=0:
-            self.parcela.pozo = Pozo(self)
+            self.parcela.pozo = Pozo(self.parcela)
     def metrosRestantes(self):
         return (self.parcela.profundidad - self.metrosExcavados)
 
