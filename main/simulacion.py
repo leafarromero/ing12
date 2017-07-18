@@ -75,140 +75,27 @@ class Contexto:
     
     
 class Formulas:
-    def __init__(self, alpha1 = 0.1, alpha2 = 0.01): 
-        #deberian estar aca??
+    def __init__(self, alpha1 = 0.3, alpha2 = 0.01): 
         if (0.1 <= alpha1 <= 0.6):
             self.alpha1 = alpha1 
         else:
             raise ValueError
-        
         if (0.005 <= alpha2 <= 0.01):
             self.alpha2 = alpha2
         else:
             raise ValueError
         
-     
-    def potencialVolDiarioXPozo(self,presionAnterior,volumenRi,numPozos):
-        pbcti = self.presionAlSiguienteDia(presionAnterior, volumenRi, numPozos)
-        sumando1 = self.alpha1 * (pbcti/numPozos)
-        sumando2 = self.alpha2 * ((pbcti/numPozos)^2)
+    def potencialVol(self,presion,volumenRi,numPozos):
+        sumando1 = self.alpha1 * (presion/numPozos)
+        sumando2 = self.alpha2 * ((presion/numPozos)^2)
         return sumando1 + sumando2
         
-    
-    def presionAlSiguienteDia(self, presionAnterior,volumenRi,numPozos):
-        betaI = self.betaI(volumenRi, numPozos)
+    def presionAlSiguienteDia(self, presionAnterior, volumenR, volumenRi,numPozos):
+        betaI = self.betaI(volumenR, volumenRi, numPozos)
         return presionAnterior * (math.e ^ -(betaI))
     
     def betaI(self, volumenR, volumenRi, numPozos):
         return (0.1 * (volumenRi / volumenR)) / ((numPozos)^(2/3))
-
-
-class Yacimiento:
-    def __init__(self):
-
-        #Habria que pasarle los parametros con los que se construye
-        self.parcelas = [] 
-        self.volumen = 0
-        self.porcentajePetroleo = 100
-        self.porcentajeGas = 0
-        self.porcentajeAgua = 0
-        self.globalExtraido = 0
-        self.globalReinyectado = 0
-        
-
-    def parcelas(self):
-        return self.parcelas
-
-    def volumenInicial(self):
-    	return self.volumenInicial
-
-	def volumenActual(self):
-    	return self.volumenActual
-
-	def globalExtraido(self):
-    	return self.globalExtraido
-
-    def globalReinyectado():
-    	return self.globalReinyectado
-
-    def extraer(cantProducto):
-        self.volumenActual -= cantProducto
-        self.globalExtraido += cantProducto
-
-    def reinyectarAgua(cantAgua):
-        #sacar las cuentas para cambiar el porcentaje y volumen
-        volumenNuevo = self.volumenActual + cantAgua
-
-        porcNuevoAgua = float(self.volumenActual * float(self.porcentajeAgua) / 100+ cantAgua) / volumenNuevo
-        porcNuevoGas = float(self.volumenActual * float(self.porcentajeGas) / 100) / volumenNuevo
-        porcNuevoProducto = float(self.volumenActual * float(self.porcentajePetroleo) / 100) / volumenNuevo
-
-        self.volumenActual = volumenNuevo
-        self.porcentajeAgua = porcNuevoAgua
-        self.porcentajePetroleo = porcNuevoProducto
-        self.porcentajeGas = porcNuevoGas
-        self.globalReinyectado += cantAgua
-
-        for p in self.parcelas:
-        	p.reinyeccion()
-
-    def reinyectarGas(cantGas):
-        #sacar las cuentas para cambiar el porcentaje y volumen
-        volumenNuevo = self.volumenActual + cantGas
-
-        porcNuevoAgua = float(self.volumenActual * float(self.porcentajeAgua)) / volumenNuevo
-        porcNuevoGas = 100 * float(self.volumenActual * float(self.porcentajeGas) / 100 + cantGas) / volumenNuevo
-        porcNuevoPetroleo = float(self.volumenActual * float(self.porcentajePetroleo)) / volumenNuevo
-
-        self.volumenActual = volumenNuevo
-        self.porcentajeAgua = porcNuevoAgua
-        self.porcentajePetroleo = porcNuevoPetroleo
-        self.porcentajeGas = porcNuevoGas
-        self.globalReinyectado += cantGas
-
-		for p in self.parcelas:
-        	p.reinyeccion()
-
-    #Si tengo un solo yacimiento y un solo reservorio, no tiene sentido mandar la informacion
-    #de reservorio a una clase separada, dejaria a yacimiento vacio
-
-
-class Parcela:
-    def __init__(self, profundidad, presionInicial, resistencia, yacimiento):
-        self.presionInicial = presionInicial
-        self.presionActual = presionInicial
-        self.profundidad = profundidad
-        self.resistencia = resistencia
-        self.yacimiento = yacimiento
-        self.pozo = Excavacion(self)
-
-    def extraer():
-        #Cambiar presion
-        #TODO
-        producto = "HACER LOS CALCULOS DEL POTENCIAL DE PRODUCTO"
-        self.yacimiento.extraer(producto)
-        return producto
-
-    def reinyeccion():
-    	pass
-
-class pozo:
-    def __init__(self, parcela):
-        self.parcela = parcela
-
-    def extraer():
-        #El extractor hace la verificacion si se puede extraer de acuerdo a las estructuras disponibles
-        productoExtraido = self.parcela.extraer()
-        return productoExtraido
-
-        
-    def reinyectarGas():
-        #El extractor hace la verificacion si se puede reinyectar de acuerdo a las estructuras disponibles
-        self.parcela.reinyectarGas()
-
-    def reinyectarAgua(cantAgua):
-        #El extractor hace la verificacion si se puede reinyectar de acuerdo a las estructuras disponibles
-        self.parcela.reinyectarAgua(cantAgua)
 
 
 class Bombeador:
@@ -261,6 +148,7 @@ class PlantaProcesadora:
         self.litrosPorDia = litrosPorDia
         self.litrosProcesadosEnDia = 0
         self.vendedorDePetroleo = vendedorDePetroleo
+    
     def cantidadQuePuedeProcesarEnDia(self):
         return (self.litrosPorDia) - (self.litrosProcesadosEnDia)
 
@@ -294,13 +182,5 @@ class VendedorDePetroleo:
         dinero = self.dolarPorLitro*litrosDePetroleo
         log.venta(dinero)
 
-class ComposicionDeCrudo:
-    def __init__(self,porcentajePetroleo,porcentajeGas):
-        if (0<=porcentajePetroleo+ porcentajeGas<=100):
-            self.porcentajePetroleo = porcentajePetroleo
-            self.porcentajeGas = porcentajeGas
-            self.porcentajeAgua = 100 - porcentajePetroleo - porcentajeGas
-        else:
-            raise ValueError
 
 
