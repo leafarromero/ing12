@@ -20,6 +20,16 @@ class Simulacion:
         self.scheduler.ejecutarPoliticas(self.contexto)
         self.diaNumero += 1
         
+class Excavacion:
+    def __init__(self,parcela):
+        self.parcela = parcela
+        self.metrosExcavados = 0
+    def excavar(self,metros):
+        self.metrosExcavados = self.metrosExcavados + metros
+        if (self.metrosRestantes())<=0:
+            self.parcela.pozo = Pozo(self)
+    def metrosRestantes(self):
+        return (self.parcela.profundidad - self.metrosExcavados)
 
 class Log:
     def __init__(self, archivo):
@@ -170,9 +180,7 @@ class Parcela:
         self.profundidad = profundidad
         self.resistencia = resistencia
         self.yacimiento = yacimiento
-
-    def abrirPozo(self, pozo):
-        self.pozo = Pozo(self)
+        self.pozo = Excavacion(self)
 
     def extraer():
         #Cambiar presion
