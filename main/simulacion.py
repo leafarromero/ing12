@@ -90,39 +90,78 @@ class Formulas:
 
 class Yacimiento:
     def __init__(self):
-        #Habria que pasarle los parametros con los que se construye
-        self.parcelas = [] 
-        self.volumen = 0
+        #Habría que pasarle los parametros con los que se construye
+        self.parcelas = []
+        self.volumenInicial = 0 
+        self.volumenActual = 0
         self.porcentajeProducto = 100
         self.porcentajeGas = 0
         self.porcentajeAgua = 0
+        self.globalExtraido = 0
+        self.globalReinyectado = 0
         
 
     def parcelas(self):
         return self.parcelas
 
+    def volumenInicial(self):
+    	return self.volumenInicial
+
+	def volumenActual(self):
+    	return self.volumenActual
+
+	def globalExtraido(self):
+    	return self.globalExtraido
+
+    def globalReinyectado():
+    	return self.globalReinyectado
+
     def extraer(cantProducto):
-        #sacar las cuentas para cambiar el porcentaje y volumen
-        #TODO
-        pass
+        self.volumenActual -= cantProducto
+        self.globalExtraido += cantProducto
 
     def reinyectarAgua(cantAgua):
         #sacar las cuentas para cambiar el porcentaje y volumen
-        #TODO
-        pass
+        volumenNuevo = self.volumenActual + cantAgua
+
+        porcNuevoAgua = float(self.volumenActual * float(self.porcentajeAgua) / 100+ cantAgua) / volumenNuevo
+        porcNuevoGas = float(self.volumenActual * float(self.porcentajeGas) / 100) / volumenNuevo
+        porcNuevoProducto = float(self.volumenActual * float(self.porcentajeProducto) / 100) / volumenNuevo
+
+        self.volumenActual = volumenNuevo
+        self.porcentajeAgua = porcNuevoAgua
+        self.porcentajeProducto = porcNuevoProducto
+        self.porcentajeGas = porcNuevoGas
+        self.globalReinyectado += cantAgua
+
+        for p in self.parcelas:
+        	p.reinyeccion()
 
     def reinyectarGas(cantGas):
         #sacar las cuentas para cambiar el porcentaje y volumen
-        #TODO
-        pass
+        volumenNuevo = self.volumenActual + cantAgua
+
+        porcNuevoAgua = 100 * float(self.volumenActual * float(self.porcentajeAgua) / 100 + cantAgua) / volumenNuevo
+        porcNuevoGas = float(self.volumenActual * float(self.porcentajeGas)) / volumenNuevo
+        porcNuevoProducto = float(self.volumenActual * float(self.porcentajeProducto)) / volumenNuevo
+
+        self.volumenActual = volumenNuevo
+        self.porcentajeAgua = porcNuevoAgua
+        self.porcentajeProducto = porcNuevoProducto
+        self.porcentajeGas = porcNuevoGas
+        self.globalReinyectado += cantAgua
+
+		for p in self.parcelas:
+        	p.reinyeccion()
 
     #Si tengo un solo yacimiento y un solo reservorio, no tiene sentido mandar la informacion
     #de reservorio a una clase separada, dejaria a yacimiento vacio
 
 
 class Parcela:
-    def __init__(self, profundidad, presion, resistencia, yacimiento):
-        self.presion = presion
+    def __init__(self, profundidad, presionInicial, resistencia, yacimiento):
+        self.presionInicial = presionInicial
+        self.presionActual = presionInicial
         self.profundidad = profundidad
         self.resistencia = resistencia
         self.yacimiento = yacimiento
@@ -137,19 +176,10 @@ class Parcela:
         self.yacimiento.extraer(producto)
         return producto
 
-    def reinyectarAgua(cantAgua):
-        #Cambiar presion
-        #TODO
-        self.yacimiento.reinyectarAgua(cantAgua)
+    def reinyeccion():
+    	pass
 
-
-    def reinyectarGas(cantGas):
-        #Cambiar presion
-        #TODO
-        self.yacimiento.reinyectarGas(cantGas)
-
-
-class Pozo:
+class pozo:
     def __init__(self, parcela):
         self.parcela = parcela
 
@@ -166,6 +196,7 @@ class Pozo:
     def reinyectarAgua(cantAgua):
         #El extractor hace la verificacion si se puede reinyectar de acuerdo a las estructuras disponibles
         self.parcela.reinyectarAgua(cantAgua)
+
 
 class Bombeador:
     def __init__(self,tanquesAgua,tanquesGas,plantasSeparadoras):
