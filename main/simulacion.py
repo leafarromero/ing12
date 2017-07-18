@@ -25,8 +25,8 @@ class Excavacion:
         self.parcela = parcela
         self.metrosExcavados = 0
     def excavar(self,metros):
-        self.metrosExcavados = self.metrosExcavados + metros
-        if (self.metrosRestantes())<=0:
+        self.metrosExcavados = min(self.metrosExcavados + metros,self.parcela.profundidad)
+        if (self.metrosRestantes())==0:
             self.parcela.pozo = Pozo(self.parcela)
     def metrosRestantes(self):
         return (self.parcela.profundidad - self.metrosExcavados)
@@ -49,7 +49,11 @@ class Log:
         return texto + "\n"
     def venta(self,dinero):
         self.dineroGanado += dinero
-        self.escribirLinea
+        self.escribirLinea("Ingreso de dolares: " + Str(dinero)  + "\n")
+
+    def gasto(self,dinero):
+        self.dineroGanado -= dinero
+        self.escribirLinea("Gasto de dolares: " + Str(dinero)  + "\n")
 
 
 
@@ -117,7 +121,7 @@ class Bombeador:
         materialesSeparados = MaterialesSeparados(0,0)
 
         for planta in (self.plantasSeparadoras):
-            cant = min(cantidadQuePuedeProcesarEnDia(planta),litrosDeCrudo)
+            cant = min(planta.cantidadQuePuedeProcesarEnDia(),litrosDeCrudo)
             if cant!=0:
                 materialesSeparados = agregar(materialesSeparados, planta.procesar(composicionDeCrudo,cant))
                 litrosDeCrudo = litrosDeCrudo - cant
@@ -127,7 +131,7 @@ class Bombeador:
    
     def almacenarGas(self,litrosDeGas):
         for tanq in self.tanquesGas:
-            cant = min(cantidadQuePuedeAlmacenar(tanq),litrosDeGas)
+            cant = min(tanq.cantidadQuePuedeAlmacenar(),litrosDeGas)
             if cant!=0:
                 tanq.almacenar(composicionDeCrudo,cant)
                 litrosDeCrudo = litrosDeCrudo - cant
@@ -136,12 +140,29 @@ class Bombeador:
 
     def almacenarAgua(self,litrosDeAgua):
         for tanq in self.tanquesAgua:
-            cant = min(cantidadQuePuedeAlmacenar(tanq),litrosDeAgua)
+            cant = min(tanq.cantidadQuePuedeAlmacenar(),litrosDeAgua)
             if cant!=0:
                 tanq.almacenar(composicionDeCrudo,cant)
                 litrosDeCrudo = litrosDeCrudo - cant
             if litrosDeCrudo==0:
                 break
+class Tanque:
+    def __init__(self,capacidadEnLitros):
+        self.capacidadEnLitros = capacidadEnLitros
+        self.litrosAlmacenados = 0
+    def cantidadQuePuedeAlmacenar(self):
+        self.capacidadEnLitros - self.litrosAlmacenados
+    def almacenar(self,litros):
+        if (self.litrosAlmacenados+litros > self.capacidadEnLitros):
+            raise ValueError
+        else:
+            self.litrosAlmacenados = self.litrosAlmacenados+litros
+
+    def retirar(litros):
+        if(litrosAlmacenados < litros):
+            raise ValueError
+        else:
+            self.litrosAlmacenados = self.litrosAlmacenados - litros
 
 class PlantaProcesadora:
     def __init__(self,litrosPorDia,vendedorDePetroleo):
