@@ -18,6 +18,7 @@ class Simulacion:
     def simularDia(self):
         self.log.escribirLinea("Comienza el dia " + self.diaNumero)
         self.scheduler.ejecutarPoliticas(self.contexto)
+        self.diaNumero += 1
         
 
 class Log:
@@ -52,8 +53,8 @@ class Scheduler:
 class Contexto:
     def __init__(self):
         self.formulas = Formulas()
+        self.yacimiento = Yacimiento()
         #self.parametros = Parametros()
-        #self.yacimiento = Yacimiento()
         #self.rigs = []
         #self.estructuras = Estructuras()
     
@@ -71,8 +72,7 @@ class Formulas:
         else:
             raise ValueError
         
-        
-        
+     
     def potencialVolDiarioXPozo(self,presionAnterior,volumenRi,numPozos):
         pbcti = self.presionAlSiguienteDia(presionAnterior, volumenRi, numPozos)
         sumando1 = self.alpha1 * (pbcti/numPozos)
@@ -86,9 +86,83 @@ class Formulas:
     
     def betaI(self, volumenR, volumenRi, numPozos):
         return (0.1 * (volumenRi / volumenR)) / ((numPozos)^(2/3))
-    
-    
-    
-    
-    
-    
+
+
+class Yacimiento:
+    def __init__(self):
+        #Habría que pasarle los parametros con los que se construye
+        self.parcelas = [] 
+        self.volumen = 0
+        self.porcentajeProducto = 100
+        self.porcentajeGas = 0
+        self.porcentajeAgua = 0
+        
+
+    def parcelas(self):
+        return self.parcelas
+
+    def extraer(cantProducto):
+        #sacar las cuentas para cambiar el porcentaje y volumen
+        #TODO
+        pass
+
+    def reinyectarAgua(cantAgua):
+        #sacar las cuentas para cambiar el porcentaje y volumen
+        #TODO
+        pass
+
+    def reinyectarGas(cantGas):
+        #sacar las cuentas para cambiar el porcentaje y volumen
+        #TODO
+        pass
+
+    #Si tengo un solo yacimiento y un solo reservorio, no tiene sentido mandar la informacion
+    #de reservorio a una clase separada, dejaria a yacimiento vacio
+
+
+class Parcela:
+    def __init__(self, profundidad, presion, resistencia, yacimiento):
+        self.presion = presion
+        self.profundidad = profundidad
+        self.resistencia = resistencia
+        self.yacimiento = yacimiento
+
+    def abrirPozo(self, pozo):
+        self.pozo = Pozo(self)
+
+    def extraer():
+        #Cambiar presion
+        #TODO
+        producto = "HACER LOS CALCULOS DEL POTENCIAL DE PRODUCTO"
+        self.yacimiento.extraer(producto)
+        return producto
+
+    def reinyectarAgua(cantAgua)
+        #Cambiar presion
+        #TODO
+        self.yacimiento.reinyectarAgua(cantAgua)
+
+
+    def reinyectarGas(cantGas)
+        #Cambiar presion
+        #TODO
+        self.yacimiento.reinyectarGas(cantGas)
+
+
+class pozo:
+    def __init__(self, parcela):
+        self.parcela = parcela
+
+    def extraer():
+        #El extractor hace la verificacion si se puede extraer de acuerdo a las estructuras disponibles
+        productoExtraido = self.parcela.extraer()
+        return productoExtraido
+
+        
+    def reinyectarGas():
+        #El extractor hace la verificacion si se puede reinyectar de acuerdo a las estructuras disponibles
+        self.parcela.reinyectarGas()
+
+    def reinyectarAgua(cantAgua):
+        #El extractor hace la verificacion si se puede reinyectar de acuerdo a las estructuras disponibles
+        self.parcela.reinyectarAgua(cantAgua)
