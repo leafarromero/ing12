@@ -99,7 +99,7 @@ class Yacimiento:
         #Habria que pasarle los parametros con los que se construye
         self.parcelas = [] 
         self.volumen = 0
-        self.porcentajePetrolio = 100
+        self.porcentajePetroleo = 100
         self.porcentajeGas = 0
         self.porcentajeAgua = 0
         self.globalExtraido = 0
@@ -131,11 +131,11 @@ class Yacimiento:
 
         porcNuevoAgua = float(self.volumenActual * float(self.porcentajeAgua) / 100+ cantAgua) / volumenNuevo
         porcNuevoGas = float(self.volumenActual * float(self.porcentajeGas) / 100) / volumenNuevo
-        porcNuevoProducto = float(self.volumenActual * float(self.porcentajeProducto) / 100) / volumenNuevo
+        porcNuevoProducto = float(self.volumenActual * float(self.porcentajePetroleo) / 100) / volumenNuevo
 
         self.volumenActual = volumenNuevo
         self.porcentajeAgua = porcNuevoAgua
-        self.porcentajeProducto = porcNuevoProducto
+        self.porcentajePetroleo = porcNuevoProducto
         self.porcentajeGas = porcNuevoGas
         self.globalReinyectado += cantAgua
 
@@ -148,11 +148,11 @@ class Yacimiento:
 
         porcNuevoAgua = 100 * float(self.volumenActual * float(self.porcentajeAgua) / 100 + cantAgua) / volumenNuevo
         porcNuevoGas = float(self.volumenActual * float(self.porcentajeGas)) / volumenNuevo
-        porcNuevoProducto = float(self.volumenActual * float(self.porcentajeProducto)) / volumenNuevo
+        porcNuevoPetroleo = float(self.volumenActual * float(self.porcentajePetroleo)) / volumenNuevo
 
         self.volumenActual = volumenNuevo
         self.porcentajeAgua = porcNuevoAgua
-        self.porcentajeProducto = porcNuevoProducto
+        self.porcentajePetroleo = porcNuevoPetroleo
         self.porcentajeGas = porcNuevoGas
         self.globalReinyectado += cantAgua
 
@@ -212,7 +212,7 @@ class Bombeador:
     
     def extraer (pozos):
         for poz in pozos:
-            composicionDeCrudo = (self.yacimiento.porcentajePetrolio,self.yacimiento.porcentajeGas,self.yacimiento.porcentajeAgua)
+            composicionDeCrudo = (self.yacimiento.porcentajePetroleo,self.yacimiento.porcentajeGas,self.yacimiento.porcentajeAgua)
             materialesSeparados = self.procesar(poz.extraer())
             self.almacenarAgua(materialesSeparados.litrosDeAgua)
             self.almacenarGas(materialesSeparados.litrosDeGas)
