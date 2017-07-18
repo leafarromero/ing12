@@ -24,6 +24,8 @@ class Simulacion:
 class Log:
     def __init__(self, archivo):
         self.miArchivo = archivo
+        self.dineroGanado = 0
+        self.dineroPerdido = 0
         
     def comenzar(self):
         with open(self.miArchivo , "w") as file:
@@ -34,8 +36,11 @@ class Log:
     def escribirLinea(self, texto):
         with open(self.miArchivo , "a") as file:
             file.write(texto + "\n")
-            
         return texto + "\n"
+    def venta(self,dinero):
+        self.dineroGanado += dinero
+        self.escribirLinea
+
 
 
 class Scheduler:
@@ -90,11 +95,11 @@ class Formulas:
 
 class Yacimiento:
     def __init__(self):
-        #Habría que pasarle los parametros con los que se construye
-        self.parcelas = []
-        self.volumenInicial = 0 
-        self.volumenActual = 0
-        self.porcentajeProducto = 100
+
+        #Habria que pasarle los parametros con los que se construye
+        self.parcelas = [] 
+        self.volumen = 0
+        self.porcentajePetrolio = 100
         self.porcentajeGas = 0
         self.porcentajeAgua = 0
         self.globalExtraido = 0
@@ -199,23 +204,25 @@ class pozo:
 
 
 class Bombeador:
-    def __init__(self,tanquesAgua,tanquesGas,plantasSeparadoras):
-        self.tanquesAgua
-        self.tanquesGas
-        self.plantasSeparadoras
+    def __init__(self,tanquesAgua,tanquesGas,plantasSeparadoras,yacimiento):
+        self.tanquesAgua = tanquesAgua
+        self.tanquesGas = tanquesGas
+        self.plantasSeparadoras = plantasSeparadoras
+        self.yacimiento = yacimiento
     
     def extraer (pozos):
         for poz in pozos:
+            composicionDeCrudo = (self.yacimiento.porcentajePetrolio,self.yacimiento.porcentajeGas,self.yacimiento.porcentajeAgua)
             materialesSeparados = self.procesar(poz.extraer())
             self.almacenarAgua(materialesSeparados.litrosDeAgua)
             self.almacenarGas(materialesSeparados.litrosDeGas)
-            self.vender(materialesSeparados.litrosDePetroleo)
+            #self.vender(materialesSeparados.litrosDePetroleo)
     
     def procesar (self,composicionDeCrudo,litrosDeCrudo):
-        materialesSeparados = MaterialesSeparados(0,0,0)
-        
+        materialesSeparados = MaterialesSeparados(0,0)
+
         for planta in (self.plantasSeparadoras):
-            cant = min(cantidadQuePuedeProcesar(planta),litrosDeCrudo)
+            cant = min(cantidadQuePuedeProcesarEnDia(planta),litrosDeCrudo)
             if cant!=0:
                 materialesSeparados = agregar(materialesSeparados, planta.procesar(composicionDeCrudo,cant))
                 litrosDeCrudo = litrosDeCrudo - cant
@@ -241,16 +248,51 @@ class Bombeador:
             if litrosDeCrudo==0:
                 break
 
+class PlantaProcesadora:
+    def __init__(self,litrosPorDia,vendedorDePetroleo):
+        self.litrosPorDia = litrosPorDia
+        self.litrosProcesadosEnDia = 0
+        self.vendedorDePetroleo = vendedorDePetroleo
+    def cantidadQuePuedeProcesarEnDia(self):
+        return (self.litrosPorDia) - (self.litrosProcesadosEnDia)
+
+    def procesar(self,composicionDeCrudo,litrosDeCrudo):
+        if (litrosDeCrudo > self.cantidadQuePuedeProcesarEnDia()):
+            raise ValueError
+        litrosDePetroleo = composicionDeCrudo[0] * litrosDeCrudo/100
+        litrosDeAgua = composicionDeCrudo[1] * litrosDeCrudo/100
+        litrosDeGas = composicionDeCrudo[2] * litrosDeCrudo/100
+        self.vendedorDePetroleo.vender(litrosDePetroleo)
+        return MaterialesSeparados(litrosDeAgua,litrosDeGas)
+    def pasarDia(self):
+        self.litrosProcesadosEnDia = 0
 
 
 class MaterialesSeparados:
-    def __init__(self,litrosDeAgua,litrosDeGas,litrosDePetroleo):
+    def __init__(self,litrosDeAgua,litrosDeGas):
         self.litrosDeAgua = litrosDeAgua
         self.litrosDeGas = litrosDeGas
-        self.litrosDePetroleo = litrosDePetroleo
 
     def agregar(otrosMaterialesSeparados):
         litrosDeAgua = self.litrosDeAgua + otrosMaterialesSeparados.litrosDeAgua
         litrosDeGas = self.litrosDeGas + otrosMaterialesSeparados.litrosDeGas
-        litrosDePetroleo = self.litrosDePetroleo + otrosMaterialesSeparados.litrosDePetroleo
-        return MaterialesSeparados(litrosDeAgua,litrosDeGas,litrosDePetroleo)
+        return MaterialesSeparados(litrosDeAgua,litrosDeGas)
+
+class VendedorDePetroleo:
+    def __init__(self,dolarPorLitro,log):
+        self.dolarPorLitro = dolarPorLitro
+        self.log = log
+    def vender(litrosDePetroleo):
+        dinero = self.dolarPorLitro*litrosDePetroleo
+        log.venta(dinero)
+
+class ComposicionDeCrudo:
+    def __init__(self,porcentajePetroleo,porcentajeGas):
+        if (0<=porcentajePetroleo+ porcentajeGas<=100):
+            self.porcentajePetroleo = porcentajePetroleo
+            self.porcentajeGas = porcentajeGas
+            self.porcentajeAgua = 100 - porcentajePetroleo - porcentajeGas
+        else:
+            raise ValueError
+
+
