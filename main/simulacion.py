@@ -144,17 +144,17 @@ class Yacimiento:
 
     def reinyectarGas(cantGas):
         #sacar las cuentas para cambiar el porcentaje y volumen
-        volumenNuevo = self.volumenActual + cantAgua
+        volumenNuevo = self.volumenActual + cantGas
 
-        porcNuevoAgua = 100 * float(self.volumenActual * float(self.porcentajeAgua) / 100 + cantAgua) / volumenNuevo
-        porcNuevoGas = float(self.volumenActual * float(self.porcentajeGas)) / volumenNuevo
+        porcNuevoAgua = float(self.volumenActual * float(self.porcentajeAgua)) / volumenNuevo
+        porcNuevoGas = 100 * float(self.volumenActual * float(self.porcentajeGas) / 100 + cantGas) / volumenNuevo
         porcNuevoPetroleo = float(self.volumenActual * float(self.porcentajePetroleo)) / volumenNuevo
 
         self.volumenActual = volumenNuevo
         self.porcentajeAgua = porcNuevoAgua
         self.porcentajePetroleo = porcNuevoPetroleo
         self.porcentajeGas = porcNuevoGas
-        self.globalReinyectado += cantAgua
+        self.globalReinyectado += cantGas
 
 		for p in self.parcelas:
         	p.reinyeccion()
