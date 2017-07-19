@@ -133,23 +133,10 @@ class Estructuras(object):
 class Contexto:
     def __init__(self, configPath):
         self.yacimiento = Yacimiento(configPath)
-        # self.rigs = []
-        self.tanques_agua = set()
-        self.tanques_gas = set()
         self.administradorDeRigs = AdministradorDeRigs(configPath)
         self.excavador = Excavador(configPath)
-
-    def add_tanque_agua(self,tanque_agua):
-        self.tanques_agua.add(tanque_agua)
-
-    def dame_tanques_agua(self):
-        return self.tanques_agua
-
-    def add_tanque_gas(self,tanque_gas):
-        self.tanques_gas.add(tanque_gas)
-
-    def dame_tanques_gas(selfs):
-        return self.tanques_gas
+        self.estructuras = Estructuras(configPath)
+        self.constructor = Constructor(configPath)
 
 
 class Formulas:
