@@ -55,6 +55,15 @@ class Log:
         self.dineroGanado -= dinero
         self.escribirLinea("Gasto de dolares: " + Str(dinero)  + "\n")
 
+    def ventas(self):
+        self.log.escribirLinea("dolares obtenidos hasta la fecha: " + Str(self.dineroGanado))
+
+    def gastos(self):
+        self.log.escribirLinea("dolares gastados hasta la fecha: " + Str(self.dineroPerdido))
+
+    def balance(self):
+        self.log.escribirLinea("ganancias hasta la fecha: " + Str(self.dineroGanado - self.dineroPerdido))
+
 
 
 class Scheduler:
@@ -103,27 +112,31 @@ class Formulas:
 
 
 class Bombeador:
-    def __init__(self,tanquesAgua,tanquesGas,plantasSeparadoras,yacimiento):
+    def __init__(self,tanquesAgua,tanquesGas,plantasSeparadoras,yacimiento,log):
         self.tanquesAgua = tanquesAgua
         self.tanquesGas = tanquesGas
         self.plantasSeparadoras = plantasSeparadoras
         self.yacimiento = yacimiento
+        self.log = log
     
     def extraer (pozos):
         for poz in pozos:
             composicionDeCrudo = (self.yacimiento.porcentajePetroleo,self.yacimiento.porcentajeGas,self.yacimiento.porcentajeAgua)
             materialesSeparados = self.procesar(poz.extraer())
-            self.almacenarAgua(materialesSeparados.litrosDeAgua)
-            self.almacenarGas(materialesSeparados.litrosDeGas)
-            #self.vender(materialesSeparados.litrosDePetroleo)
+            self.log.escribirLinea("litros de gas destilados: " + Str(litrosDeGas) + "\n")
+            self.log.escribirLinea("litros de agua destilados: " + Str(litrosDeAgua) + "\n")
+            self.almacenarAgua(materialesSeparados[0])
+            self.almacenarGas(materialesSeparados[1])
     
     def procesar (self,composicionDeCrudo,litrosDeCrudo):
-        materialesSeparados = MaterialesSeparados(0,0)
+        materialesSeparados = (0,0)
 
         for planta in (self.plantasSeparadoras):
             cant = min(planta.cantidadQuePuedeProcesarEnDia(),litrosDeCrudo)
             if cant!=0:
-                materialesSeparados = agregar(materialesSeparados, planta.procesar(composicionDeCrudo,cant))
+                materialesSeparadosEnPlanta = planta.procesar(composicionDeCrudo,cant)
+                materialesSeparados[0] = materialesSeparados[0] + materialesSeparadosEnPlanta[0]
+                materialesSeparados[1] = materialesSeparados[1] + materialesSeparadosEnPlanta[1]
                 litrosDeCrudo = litrosDeCrudo - cant
             if litrosDeCrudo==0:
                 break
@@ -180,26 +193,28 @@ class PlantaProcesadora:
         litrosDeAgua = composicionDeCrudo[1] * litrosDeCrudo/100
         litrosDeGas = composicionDeCrudo[2] * litrosDeCrudo/100
         self.vendedorDePetroleo.vender(litrosDePetroleo)
-        return MaterialesSeparados(litrosDeAgua,litrosDeGas)
+        #return MaterialesSeparados(litrosDeAgua,litrosDeGas)
+        return (litrosDeAgua,litrosDeGas)
     def pasarDia(self):
         self.litrosProcesadosEnDia = 0
 
 
-class MaterialesSeparados:
-    def __init__(self,litrosDeAgua,litrosDeGas):
-        self.litrosDeAgua = litrosDeAgua
-        self.litrosDeGas = litrosDeGas
-
-    def agregar(otrosMaterialesSeparados):
-        litrosDeAgua = self.litrosDeAgua + otrosMaterialesSeparados.litrosDeAgua
-        litrosDeGas = self.litrosDeGas + otrosMaterialesSeparados.litrosDeGas
-        return MaterialesSeparados(litrosDeAgua,litrosDeGas)
+#class MaterialesSeparados:
+#    def __init__(self,litrosDeAgua,litrosDeGas):
+#        self.litrosDeAgua = litrosDeAgua
+#        self.litrosDeGas = litrosDeGas
+#
+#    def agregar(otrosMaterialesSeparados):
+#        litrosDeAgua = self.litrosDeAgua + otrosMaterialesSeparados.litrosDeAgua
+#        litrosDeGas = self.litrosDeGas + otrosMaterialesSeparados.litrosDeGas
+#        return MaterialesSeparados(litrosDeAgua,litrosDeGas)
 
 class VendedorDePetroleo:
     def __init__(self,dolarPorLitro,log):
         self.dolarPorLitro = dolarPorLitro
         self.log = log
     def vender(litrosDePetroleo):
+        log.escribirLinea("litros de petroleo destilados: " + Str(litrosDePetroleo) + "\n")
         dinero = self.dolarPorLitro*litrosDePetroleo
         log.venta(dinero)
 

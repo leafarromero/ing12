@@ -25,6 +25,7 @@ class Excavador:
 
 	def excavar(self,parcela,rig):
 		rig.excavar(parcela)
+		self.log.escribirLinea("Efectuada excavacion")
 		self.log.gasto(rig.litrosCombustiblePorDia*self.dolaresPorLitroDeCombustible)
 
 
@@ -33,16 +34,13 @@ class RigManager:
 		self.log = log
 		self.administradorDeRig = administradorDeRig
 	def alquilar(self,modelo,cantidadDeDias,administradorDeRig):
+		self.log.escribirLinea("Nuevo rig alquilado")
 		self.log.gasto((modelo.costoAlquilerPorDia)*cantidadDeDias)
 		self.administradorDeRig.agregarRig(Rig(modelo,cantidadDeDias))
 	def pasarDia(self):
-		rigsABorrar = {}
-		for rig in self.administradorDeRig.rigs:
-			rig.pasarDia()
-			if diasRestantes==0:
-				rigsABorrar.add(rig)
-		for rig in rigsABorrar:
-			self.administradorDeRig.quitarRig(rig)
+		rigsCauducados = self.administradorDeRig.pasarDia()
+		if rigsCauducados!=0:
+			self.log.escribirLinea("rigs caudicaron alquiler: " + Str(rigsCauducados))
 
 
 class AdministradorDeRigs:
@@ -51,5 +49,12 @@ class AdministradorDeRigs:
 	def agregarRig(self,rig):
 		self.rigs.add(rig)
 
-	def quitarRig(self,rig):
-		self.rigs.discart(rig)
+	def pasarDia(self):
+		rigsABorrar = {}
+		for rig in self.rigs:
+			rig.pasarDia()
+			if diasRestantes==0:
+				rigsABorrar.add(rig)
+		for rig in rigsABorrar:
+			self.rigs.discart(rig)
+		return len(rigsABorrar)
