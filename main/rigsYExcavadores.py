@@ -50,11 +50,6 @@ class RigManager:
         self.log.gasto((modelo.costoAlquilerPorDia()) * cantidadDeDias)
         self.administradorDeRig.agregarRig(Rig(modelo, cantidadDeDias))
 
-    def pasarDia(self):
-        rigsCauducados = self.administradorDeRig.pasarDia()
-        for rigCauducado in rigsCauducados:
-            self.log.escribirLinea("rig cauduco alquiler, modelo: " + rigCauducado.modelo().nombre()+"\n")
-
 
 class AdministradorDeRigs:
     def __init__(self,configPath):
@@ -64,11 +59,12 @@ class AdministradorDeRigs:
     def agregarRig(self, rig):
         self.rigs.add(rig)
 
-    def pasarDia(self):
+    def pasarDia(self,log):
         rigsABorrar = {}
         for rig in self.rigs:
             rig.pasarDia()
             if diasRestantes == 0:
+                log.escribirLinea("rig cauduco alquiler, modelo: " + rig.modelo().nombre()+"\n")
                 rigsABorrar.add(rig)
         for rig in rigsABorrar:
             self.rigs.discart(rig)

@@ -21,6 +21,7 @@ class Simulacion:
     def simularDia(self):
         self.log.escribirLinea("Comienza el dia " + str(self.diaNumero))
         self.scheduler.ejecutarPoliticas(self.contexto)
+        self.contexto.pasarDia(self.log)
         self.diaNumero += 1
 
 class Log:
@@ -138,9 +139,9 @@ class Contexto:
         self.estructuras = Estructuras(configPath)
         #self.constructor = Constructor(configPath)
 
-    def pasarDia(self):
+    def pasarDia(self,log):
         self.yacimiento.pasarDia()
-        self.administradorDeRigs.pasarDia()
+        self.administradorDeRigs.pasarDia(log)
         self.estructuras.pasarDia()
 
 
