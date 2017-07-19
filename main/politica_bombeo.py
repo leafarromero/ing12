@@ -13,28 +13,48 @@ class PoliticaBombeo(PoliticaEjecucion):
                  log,
                  dilusion_critica,
                  ):
-        _bombeador = Bombeador(
+
+        self._bombeador = Bombeador(
             tanques_agua,
             tanques_gas,
             plantas_separadoras,
             yacimiento,
             log,
         )
-        _volumen_maximo_reinyeccion = volumen_maximo_reinyeccion
-        _presion_critica = presion_critica
-        _dilusion_critica = dilusion_critica
+        self._volumen_maximo_reinyeccion = volumen_maximo_reinyeccion
+        self._presion_critica = presion_critica
+        self._dilusion_critica = dilusion_critica
 
     def decidir(self,contexto):
-        pass
         # Chequear que el pozo no este en dilusion critica
+
+        unYacimiento = contexto.yacimiento
+        if self._dilusion_critica > unYacimiento.porcentajePetroleo:
+            return
+
         # Chequear si algun pozo hay que reinyectar
-        # en caso afirmativo no se puede extraer
-        # en caso negativo se extrae de los pozos
+        if self.hay_que_reinyectar(unYacimiento):
+            # en caso afirmativo no se puede extraer
 
-        # Se reinyecta con agua comprada o  agua y gas almacenada en los tanques
-        # La presion despues de reinyectar es
-    # "Presion inicial" * (VolR - VolGlobalExtraido + VolTotal Reinyectado)/ VolR
-    # donde VolGlobalReinyectado < VolGlobalExtraido
+            # Se reinyecta con agua comprada o  agua y gas almacenada en los tanques
+            if tengo_agua_almacenada():
+                # Usar usa agua
+                pass
+            else:
+                # Comprar agua
+                pass
 
-    # Luego cambian los valores de los pozos:
-    #
+
+            # La presion despues de reinyectar es
+            # "Presion inicial" * (VolR - VolGlobalExtraido + VolTotal Reinyectado)/ VolR
+            # donde VolGlobalReinyectado < VolGlobalExtraido
+
+        else:
+            # en caso negativo se extrae de los pozos
+            pass
+
+    def hay_que_reinyectar(self,yacimiento):
+        __reinyectar = False
+        for parcela in yacimiento.parcelas():
+            if parcela.presion() < self._presion_critica:
+                reinyectar = True
