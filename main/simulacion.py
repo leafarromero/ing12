@@ -186,10 +186,12 @@ class Bombeador:
             composicionDeCrudo = (
                 self.yacimiento.porcentajePetroleo(), self.yacimiento.porcentajeGas(), self.yacimiento.porcentajeAgua())
             materialesSeparados = self.estructuras.procesarCrudo(composicionDeCrudo, poz.extraer())
+            litrosDeAgua = materialesSeparados[0]
+            litrosDeGas = materialesSeparados[1]
             self.log.escribirLinea("litros de gas destilados: " + str(litrosDeGas) + "\n")
             self.log.escribirLinea("litros de agua destilados: " + str(litrosDeAgua) + "\n")
-            self.estructuras.almacenarAgua(materialesSeparados[0])
-            self.estructuras.almacenarGas(materialesSeparados[1])
+            self.estructuras.almacenarAgua(litrosDeAgua)
+            self.estructuras.almacenarGas(litrosDeGas)
 
 
 class Tanque:
