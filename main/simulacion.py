@@ -176,85 +176,53 @@ class Formulas:
         return (0.1 * (volumenRi / volumenR)) / ((numPozos) ^ (2 / 3))
 
 class Bombeador:
-    def __init__(self, tanquesAgua, tanquesGas, plantasSeparadoras, yacimiento, log):
-        self.tanquesAgua = tanquesAgua
-        self.tanquesGas = tanquesGas
-        self.plantasSeparadoras = plantasSeparadoras
+    def __init__(self, estructuras, yacimiento, log):
+        self.estructuras = estructuras
         self.yacimiento = yacimiento
         self.log = log
 
     def extraer(self, pozos):
         for poz in pozos:
             composicionDeCrudo = (
-                self.yacimiento.porcentajePetroleo, self.yacimiento.porcentajeGas, self.yacimiento.porcentajeAgua)
-            materialesSeparados = self.procesar(poz.extraer())
+                self.yacimiento.porcentajePetroleo(), self.yacimiento.porcentajeGas(), self.yacimiento.porcentajeAgua())
+            materialesSeparados = self.estructuras.procesarCrudo(poz.extraer())
             self.log.escribirLinea("litros de gas destilados: " + str(litrosDeGas) + "\n")
             self.log.escribirLinea("litros de agua destilados: " + str(litrosDeAgua) + "\n")
-            self.almacenarAgua(materialesSeparados[0])
-            self.almacenarGas(materialesSeparados[1])
-
-    def procesar(self, composicionDeCrudo, litrosDeCrudo):
-        materialesSeparados = (0, 0)
-
-        for planta in (self.plantasSeparadoras):
-            cant = min(planta.cantidadQuePuedeProcesarEnDia(), litrosDeCrudo)
-            if cant != 0:
-                materialesSeparadosEnPlanta = planta.procesar(composicionDeCrudo, cant)
-                materialesSeparados[0] = materialesSeparados[0] + materialesSeparadosEnPlanta[0]
-                materialesSeparados[1] = materialesSeparados[1] + materialesSeparadosEnPlanta[1]
-                litrosDeCrudo = litrosDeCrudo - cant
-            if litrosDeCrudo == 0:
-                break
-        return materialesSeparados
-
-    def almacenarGas(self, litrosDeGas):
-        for tanq in self.tanquesGas:
-            cant = min(tanq.cantidadQuePuedeAlmacenar(), litrosDeGas)
-            if cant != 0:
-                tanq.almacenar(composicionDeCrudo, cant)
-                litrosDeCrudo = litrosDeCrudo - cant
-            if litrosDeCrudo == 0:
-                break
-
-    def almacenarAgua(self, litrosDeAgua):
-        for tanq in self.tanquesAgua:
-            cant = min(tanq.cantidadQuePuedeAlmacenar(), litrosDeAgua)
-            if cant != 0:
-                tanq.almacenar(composicionDeCrudo, cant)
-                litrosDeCrudo = litrosDeCrudo - cant
-            if litrosDeCrudo == 0:
-                break
+            self.estructuras.almacenarAgua(materialesSeparados[0])
+            self.estructuras.almacenarGas(materialesSeparados[1])
 
 
 class Tanque:
     def __init__(self, capacidadEnLitros):
         self.capacidadEnLitros = capacidadEnLitros
-        self.litrosAlmacenados = 0
+        self._litrosAlmacenados = 0
 
     def cantidadQuePuedeAlmacenar(self):
-        self.capacidadEnLitros - self.litrosAlmacenados
+        self.capacidadEnLitros - self._litrosAlmacenados
 
     def almacenar(self, litros):
-        if (self.litrosAlmacenados + litros > self.capacidadEnLitros):
+        if (self._litrosAlmacenados + litros > self.capacidadEnLitros):
             raise ValueError
         else:
-            self.litrosAlmacenados = self.litrosAlmacenados + litros
+            self._litrosAlmacenados = self._litrosAlmacenados + litros
 
     def retirar(self, litros):
-        if (self.litrosAlmacenados < litros):
+        if (self._litrosAlmacenados < litros):
             raise ValueError
         else:
-            self.litrosAlmacenados = self.litrosAlmacenados - litros
+            self._litrosAlmacenados = self._litrosAlmacenados - litros
+    def litrosAlmacenados(self):
+        return _litrosAlmacenados
 
 
 class PlantaProcesadora:
     def __init__(self, litrosPorDia, vendedorDePetroleo):
-        self.litrosPorDia = litrosPorDia
+        self._litrosPorDia = litrosPorDia
         self.litrosProcesadosEnDia = 0
         self.vendedorDePetroleo = vendedorDePetroleo
 
     def cantidadQuePuedeProcesarEnDia(self):
-        return (self.litrosPorDia) - (self.litrosProcesadosEnDia)
+        return (self._litrosPorDia) - (self.litrosProcesadosEnDia)
 
     def procesar(self, composicionDeCrudo, litrosDeCrudo):
         if (litrosDeCrudo > self.cantidadQuePuedeProcesarEnDia()):
@@ -268,6 +236,9 @@ class PlantaProcesadora:
 
     def pasarDia(self):
         self.litrosProcesadosEnDia = 0
+
+    def litrosPorDia(self):
+        return self._litrosPorDia
 
 
 # class MaterialesSeparados:
