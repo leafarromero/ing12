@@ -2,11 +2,16 @@ from .tanques_gas import TanquesGas
 
 class VendedorGas:
 
-    def __init__(self):
-        pass
+    def __init__(self,log,estructuras,confPath):
+        self.estructuras = estructuras
+        self.log = log
+        archivo = confPath + "vendedorDeGas.txt"
+        with open(archivo, "r") as file:
+        	linea = file.readLine()
+        	self.dolaresPorLitroDeGas = int(linea)
 
-    def vender_gas(self,tanques,cantidad):
-        for tanque in tanques:
-            xyz = max(cantidad,tanque.litros())
-            tanque.retirar(xyz)
-            cantidad -= xyz
+    def vender_gas(self,cantidad):
+        aVender = max(self.estructuras.litrosDeGasAlmacenado(),cantidad)
+        self.estructuras.retirarGas(aVender)
+        self.log.escribirLinea("litros de gas vendidos: " + str(aVender) + "\n")
+        self.log.venta(aVender*self.dolaresPorLitroDeGas)
