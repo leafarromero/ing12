@@ -136,6 +136,8 @@ class Contexto:
         # self.rigs = []
         self.tanques_agua = set()
         self.tanques_gas = set()
+        self.administradorDeRigs = AdministradorDeRigs(configPath)
+        self.excavador = Excavador(configPath)
 
     def add_tanque_agua(self,tanque_agua):
         self.tanques_agua.add(tanque_agua)

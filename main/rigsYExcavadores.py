@@ -1,3 +1,5 @@
+from modeloDeRig import ModeloDeRig,cargarModelosDeRig
+
 class Rig:
     def __init__(self, modelo, diasRestantes):
         self._modelo = modelo
@@ -23,14 +25,17 @@ class Rig:
 
 
 class Excavador:
-    def __init__(self, log, dolaresPorLitroDeCombustible):
-        self.dolaresPorLitroDeCombustible = dolaresPorLitroDeCombustible
+    def __init__(self, log, configPath):
+        archivo = configPath + "excavador.txt"
+        with open(archivo, "r") as file:
+            linea = file.readLine()
+            self._dolaresPorLitroDeCombustible = int(linea)
         self.log = log
 
     def excavar(self, parcela, rig):
         rig.excavar(parcela)
         self.log.escribirLinea("Efectuada excavacion\n")
-        self.log.gasto(rig.litrosCombustiblePorDia * self.dolaresPorLitroDeCombustible)
+        self.log.gasto(rig.litrosCombustiblePorDia * self._dolaresPorLitroDeCombustible)
         if parcela.tienePozo():
             self.log.escribirLinea("Pozo terminado\n")
 
@@ -52,8 +57,9 @@ class RigManager:
 
 
 class AdministradorDeRigs:
-    def __init__(self):
+    def __init__(self,configPath):
         self.rigs = {}
+        self.modelosDeRigs = cargarModelosDeRig(configPath)
 
     def agregarRig(self, rig):
         self.rigs.add(rig)

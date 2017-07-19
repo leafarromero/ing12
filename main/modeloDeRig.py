@@ -18,12 +18,14 @@ class ModeloDeRig:
 		return self._litrosCombustiblePorDia
 
 
-def cargarModelosDeRig(configuracion):
+def cargarModelosDeRig(configPath):
+	miArchivo = configPath + "modelos_de_rig.txt"
 	res = {}
-	with open(self.miArchivo, "r") as file:
-		while True:
-			linea = file.readLine()
-			if not linea:
-				return res
-			lineaParseada = linea.split(" ")
-			res.add(ModeloDeRig(lineaParseada[0],int(lineaParseada[1]),int(lineaParseada[2]),int(lineaParseada[3]),int(lineaParseada[4])))
+	file =open(miArchivo, "r")
+	while True:
+		linea = file.readLine()
+		if not linea:
+			close(file)
+			return res
+		lineaParseada = linea.split(" ")
+		res.add(ModeloDeRig(lineaParseada[0],int(lineaParseada[1]),int(lineaParseada[2]),int(lineaParseada[3]),int(lineaParseada[4])))
