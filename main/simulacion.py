@@ -19,7 +19,7 @@ class Simulacion:
         self.log.comenzar()
 
     def simularDia(self):
-        self.log.escribirLinea("Comienza el dia " + self.diaNumero)
+        self.log.escribirLinea("Comienza el dia " + str(self.diaNumero))
         self.scheduler.ejecutarPoliticas(self.contexto)
         self.diaNumero += 1
 
