@@ -9,10 +9,10 @@ from yacimiento import Yacimiento, Pozo
 
 
 class Simulacion:
-    def __init__(self):
+    def __init__(self,politicas):
         self.log = Log("log")
         self.diaNumero = 0
-        self.scheduler = Scheduler()
+        self.scheduler = Scheduler(politicas)
         self.contexto = Contexto("./config/")
 
     def comenzar(self):
@@ -60,8 +60,9 @@ class Log:
 
 
 class Scheduler:
-    def __init__(self):
-        self.politicas = []
+    def __init__(self,politicas):
+        self.politicas = politicas
+
 
     def ejecutarPoliticas(self, contexto):
         for politica in self.politicas:

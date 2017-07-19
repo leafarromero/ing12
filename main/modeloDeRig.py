@@ -25,7 +25,7 @@ def cargarModelosDeRig(configPath):
 	while True:
 		linea = file.readLine()
 		if not linea:
-			close(file)
+			file.close()
 			return res
 		lineaParseada = linea.split(" ")
 		res.add(ModeloDeRig(lineaParseada[0],int(lineaParseada[1]),int(lineaParseada[2]),int(lineaParseada[3]),int(lineaParseada[4])))
