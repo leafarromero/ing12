@@ -26,8 +26,10 @@ class Excavador:
 
     def excavar(self, parcela, rig):
         rig.excavar(parcela)
-        self.log.escribirLinea("Efectuada excavacion")
+        self.log.escribirLinea("Efectuada excavacion\n")
         self.log.gasto(rig.litrosCombustiblePorDia * self.dolaresPorLitroDeCombustible)
+        if parcela.tienePozo():
+            self.log.escribirLinea("Pozo terminado\n")
 
 
 class RigManager:
@@ -43,7 +45,7 @@ class RigManager:
     def pasarDia(self):
         rigsCauducados = self.administradorDeRig.pasarDia()
         if rigsCauducados != 0:
-            self.log.escribirLinea("rigs caudicaron alquiler: " + str(rigsCauducados))
+            self.log.escribirLinea("rigs caudicaron alquiler: " + str(rigsCauducados)+"\n")
 
 
 class AdministradorDeRigs:
