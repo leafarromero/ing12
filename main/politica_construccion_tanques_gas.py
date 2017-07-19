@@ -3,17 +3,17 @@ from .politica_ejecucion import PoliticaEjecucion
 
 class PoliticaConstruccionTanquesGas(PoliticaEjecucion):
 
-    def decidir(self,contexto):
+    def decidir(self,contexto, constructor):
         pass
 
 class PoliticaGasPost80(PoliticaConstruccionTanquesGas):
 
     def __init__(self):
-        self._constructor = Constructor()
+        pass
 
-    def decidir(self,contexto):
+    def decidir(self,contexto, constructor):
         if estan_al_limite(contexto.estructuras().dame_tanques_agua()):
-            self._constructor.contruir_tanque_gas(1,1,1)
+            constructor.contruir_tanque_gas(1,1,1)
 
     def estan_al_limite(tanques):
         res = True

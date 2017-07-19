@@ -3,7 +3,7 @@ from .simulacion import Bombeador, TanqueAgua
 
 class PoliticaBombeo(PoliticaEjecucion):
 
-    def decidir(self,contexto):
+    def decidir(self,contexto, bombeador):
         pass
 
 class UnaPoliticaBombeo(PoliticaBombeo):
@@ -18,20 +18,13 @@ class UnaPoliticaBombeo(PoliticaBombeo):
                  dilusion_critica,
                  ):
 
-        self._bombeador = Bombeador(
-            tanques_agua,
-            tanques_gas,
-            plantas_separadoras,
-            yacimiento,
-            log,
-        )
         self._volumen_maximo_reinyeccion = volumen_maximo_reinyeccion
         self._presion_critica = presion_critica
         self._dilusion_critica = dilusion_critica
 
-    def decidir(self,contexto):
+    def decidir(self,contexto, bombeador):
         # Chequear que el pozo no este en dilusion critica
-
+        
         unYacimiento = contexto.yacimiento
         if self._dilusion_critica > unYacimiento.porcentajePetroleo:
             return

@@ -10,11 +10,11 @@ class PoliticaConstruccionTanquesAgua(PoliticaEjecucion):
 class PoliticaAguaPost80(PoliticaConstruccionTanquesAgua):
 
     def __init__(self):
-        self._constructor = Constructor()
+        pass
 
-    def decidir(self,contexto):
+    def decidir(self,contexto, constructor):
         if estan_al_limite(contexto.estructuras().dame_tanques_agua()):
-            self._constructor.construir_tanque_agua(1,1,1)
+            constructor.construir_tanque_agua(1,1,1)
 
     def estan_al_limite(tanques):
         res = True
