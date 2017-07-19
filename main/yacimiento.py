@@ -49,6 +49,15 @@ class Yacimiento:
     def parcelas(self):
         return self.parcelas
 
+    def porcentajePetroleo(self):
+        return self.porcentajePetroleo
+
+    def porcentajeAgua(self):
+        return self.porcentajeGas
+
+    def porcentajeGas(self):
+        return self.porcentajeAgua
+
     def volumenInicial(self):
         return self.volumenInicial
 

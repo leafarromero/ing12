@@ -185,7 +185,7 @@ class Bombeador:
         for poz in pozos:
             composicionDeCrudo = (
                 self.yacimiento.porcentajePetroleo(), self.yacimiento.porcentajeGas(), self.yacimiento.porcentajeAgua())
-            materialesSeparados = self.estructuras.procesarCrudo(poz.extraer())
+            materialesSeparados = self.estructuras.procesarCrudo(composicionDeCrudo, poz.extraer())
             self.log.escribirLinea("litros de gas destilados: " + str(litrosDeGas) + "\n")
             self.log.escribirLinea("litros de agua destilados: " + str(litrosDeAgua) + "\n")
             self.estructuras.almacenarAgua(materialesSeparados[0])
@@ -224,14 +224,13 @@ class PlantaProcesadora:
     def cantidadQuePuedeProcesarEnDia(self):
         return (self._litrosPorDia) - (self.litrosProcesadosEnDia)
 
-    def procesar(self, composicionDeCrudo, litrosDeCrudo):
+    def procesarCrudo(self, composicionDeCrudo, litrosDeCrudo):
         if (litrosDeCrudo > self.cantidadQuePuedeProcesarEnDia()):
             raise ValueError
         litrosDePetroleo = composicionDeCrudo[0] * litrosDeCrudo / 100
         litrosDeAgua = composicionDeCrudo[1] * litrosDeCrudo / 100
         litrosDeGas = composicionDeCrudo[2] * litrosDeCrudo / 100
         self.vendedorDePetroleo.vender(litrosDePetroleo)
-        #return MaterialesSeparados(litrosDeAgua,litrosDeGas)
         return (litrosDeAgua,litrosDeGas)
 
     def pasarDia(self):
@@ -239,17 +238,6 @@ class PlantaProcesadora:
 
     def litrosPorDia(self):
         return self._litrosPorDia
-
-
-# class MaterialesSeparados:
-#    def __init__(self,litrosDeAgua,litrosDeGas):
-#        self.litrosDeAgua = litrosDeAgua
-#        self.litrosDeGas = litrosDeGas
-#
-#    def agregar(otrosMaterialesSeparados):
-#        litrosDeAgua = self.litrosDeAgua + otrosMaterialesSeparados.litrosDeAgua
-#        litrosDeGas = self.litrosDeGas + otrosMaterialesSeparados.litrosDeGas
-#        return MaterialesSeparados(litrosDeAgua,litrosDeGas)
 
 class VendedorDePetroleo:
     def __init__(self, dolarPorLitro, log):

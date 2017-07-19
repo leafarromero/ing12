@@ -45,26 +45,24 @@ class PoliticaBombeo(PoliticaEjecucion):
                 pass
 
 
-            # La presion despues de reinyectar es
-            # "Presion inicial" * (VolR - VolGlobalExtraido + VolTotal Reinyectado)/ VolR
-            # donde VolGlobalReinyectado < VolGlobalExtraido
-
         else:
             # en caso negativo se extrae de los pozos
             pass
 
     def hay_que_reinyectar(self,yacimiento):
         __reinyectar = False
-        for parcela in yacimiento.parcelas():
+        for parcela in filter((lambda x: x.tienePozo()), yacimiento.parcelas()):
             if parcela.presion() < self._presion_critica:
                 reinyectar = True
         return reinyectar
 
     def tengo_agua_gas_almacenada(self,contexto):
-        for tanque_agua in contexto.dame_tanques_agua():
-            if tanque_agua.dame_litros() > 0
+        for tanque_agua in contexto.estructuras.dame_tanques_agua():
+            if tanque_agua.litros() > 0
                 return True
 
         for tanque_gas in contexto.dame_tanques_gas():
-            if tanque_gas.dame_litros() > 0:
+            if tanque_gas.litros() > 0:
                 return True
+
+        return False
