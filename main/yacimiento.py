@@ -15,8 +15,8 @@ class Yacimiento:
     def volumenInicial(self):
     	return self.volumenInicial
 
-	def volumenActual(self):
-    	return self.volumenActual
+    def volumenActual(self):
+        return self.volumenActual
 
     def pasarDia():
         for p in self.parcelas:
@@ -55,8 +55,8 @@ class Yacimiento:
         self.porcentajePetroleo = porcNuevoPetroleo
         self.porcentajeGas = porcNuevoGas
 
-		for p in self.parcelas:
-        	p.reinyeccion()
+        for p in self.parcelas:
+            p.reinyeccion()
 
     def numPozos(self):
         for p in self.parcelas:
