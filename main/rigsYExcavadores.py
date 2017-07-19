@@ -25,8 +25,8 @@ class Rig:
 
 
 class Excavador:
-    def __init__(self, log, configPath):
-        archivo = configPath + "excavador.txt"
+    def __init__(self, log, confPath):
+        archivo = confPath + "excavador.txt"
         with open(archivo, "r") as file:
             linea = file.readLine()
             self._dolaresPorLitroDeCombustible = int(linea)
@@ -52,9 +52,9 @@ class RigManager:
 
 
 class AdministradorDeRigs:
-    def __init__(self,configPath):
+    def __init__(self,confPath):
         self.rigs = {}
-        self.modelosDeRigs = cargarModelosDeRig(configPath)
+        self.modelosDeRigs = cargarModelosDeRig(confPath)
 
     def agregarRig(self, rig):
         self.rigs.add(rig)

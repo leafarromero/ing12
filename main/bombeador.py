@@ -1,5 +1,5 @@
 class Bombeador:
-    def __init__(self, estructuras, yacimiento, log):
+    def __init__(self, log, estructuras, yacimiento):
         self.estructuras = estructuras
         self.yacimiento = yacimiento
         self.log = log

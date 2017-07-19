@@ -25,9 +25,9 @@ class Formulas:
         return presionInicial * float(volumenActual) / volumenInicial
 
 class Yacimiento:
-    def __init__(self, configPath):
+    def __init__(self, confPath):
         #Leer yacimiento y definir volumen, porcentajes y parcelas
-        with open(configPath+'yacimiento.txt') as file:
+        with open(confPath+'yacimiento.txt') as file:
             params = file.readline().split()
             self.volumen = int(params[0])
             self.porcentajePetroleo = float(params[1])

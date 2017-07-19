@@ -18,8 +18,8 @@ class ModeloDeRig:
 		return self._litrosCombustiblePorDia
 
 
-def cargarModelosDeRig(configPath):
-	miArchivo = configPath + "modelos_de_rig.txt"
+def cargarModelosDeRig(confPath):
+	miArchivo = confPath + "modelos_de_rig.txt"
 	res = {}
 	file =open(miArchivo, "r")
 	while True:

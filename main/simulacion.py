@@ -9,11 +9,11 @@ from yacimiento import Yacimiento, Pozo
 
 
 class Simulacion:
-    def __init__(self,politicas):
+    def __init__(self,politicaAlquilerRigs,politicaExcavacion,politicaBombeo,politicaConstruccionPlantas,politicaConstruccionTanquesAgua,politicaConstruccionTanquesGas,politicaVentaGas):
         self.log = Log("log")
         self.diaNumero = 0
-        self.scheduler = Scheduler(politicas)
         self.contexto = Contexto("./config/")
+        self.scheduler = Scheduler(self.log,self.contexto,politicaAlquilerRigs,politicaExcavacion,politicaBombeo,politicaConstruccionPlantas,politicaConstruccionTanquesAgua,politicaConstruccionTanquesGas,politicaVentaGas,"./config/")
 
     def comenzar(self):
         self.log.comenzar()
@@ -60,27 +60,30 @@ class Log:
 
 
 class Scheduler:
-    def __init__(self,politicas):
-        self.politicas = politicas
+    def __init__(self,log,contexto,politicaAlquilerRigs,politicaExcavacion,politicaBombeo,politicaConstruccionPlantas,politicaConstruccionTanquesAgua,politicaConstruccionTanquesGas,politicaVentaGas,confPath):
+        self.excavador = Excavador(log,confPath)
+        self.bombeador = Bombeador(log, contexto.estructuras, contexto.yacimiento)
+        self.constructor = Constructor(log,contexto.estructuras,confPath)
+        self.rigManager = RigManager(log, contexto.administradorDeRig)
+        self.vendedorDeGas = VendedorDeGas(log, contexto.estructuras,confPath)
+
+        self.politicaVentaGas = politicaVentaGas
+        self.politicaAlquilerRigs = politicaAlquilerRigs
+        self.politicaExcavacion = politicaExcavacion
+        self.politicaBombeo = politicaBombeo
+        self.politicaConstruccionPlantas = politicaConstruccionPlantas
+        self.politicaConstruccionTanquesAgua = politicaConstruccionTanquesAgua
+        self.politicaConstruccionTanquesGas = politicaConstruccionTanquesGas
 
 
     def ejecutarPoliticas(self, contexto):
-        for politica in self.politicas:
-            politica.decidir(contexto)
-
-    def agregarPolitica(self, politica):
-        self.politicas.append(politica)
-
-
-class Estructura(object):
-    def costo_de_construccion(self):
-        pass
-
-    def tiempo_de_construccion(self):
-        pass
-
-    def fecha_de_inicio(self):
-        pass
+        self.politicaVentaGas.decidir(contexto,self.vendedorDeGas)
+        self.politicaAlquilerRigs.decidir(contexto,self.rigManager)
+        self.politicaExcavacion.decidir(contexto,self.excavador)
+        self.politicaBombeo.decidir(contexto,self.bombeador)
+        self.politicaConstruccionPlantas.decidir(contexto,self.constructor)
+        self.politicaConstruccionTanquesAgua.decidir(contexto,self.constructor)
+        self.politicaConstruccionTanquesGas.decidir(contexto,self.constructor)
 
 
 def Tanque(Estructura):
@@ -88,6 +91,12 @@ def Tanque(Estructura):
         pass
 
     def litros(self):
+        pass
+
+    def llenar(self, volumen):
+        pass
+
+    def retirar(self, volumen):
         pass
 
 
@@ -133,12 +142,10 @@ class Estructuras(object):
 
 
 class Contexto:
-    def __init__(self, configPath):
-        self.yacimiento = Yacimiento(configPath)
-        self.administradorDeRigs = AdministradorDeRigs(configPath)
-        #self.excavador = Excavador(configPath)
-        self.estructuras = Estructuras(configPath)
-        #self.constructor = Constructor(configPath)
+    def __init__(self, confPath):
+        self.yacimiento = Yacimiento(confPath)
+        self.administradorDeRigs = AdministradorDeRigs(confPath)
+        self.estructuras = Estructuras(confPath)
 
     def pasarDia(self,log):
         self.yacimiento.pasarDia()
