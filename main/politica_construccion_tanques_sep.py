@@ -1,5 +1,6 @@
-from politica_ejecucion import PoliticaEjecucion
-from constructor import Constructor
+from .constructor import Constructor
+from .politica_ejecucion import PoliticaEjecucion
+
 
 class PoliticaConstruccionTanquesSep(PoliticaEjecucion):
 

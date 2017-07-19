@@ -1,36 +1,37 @@
+from main.simulacion import Excavacion
+
+
 class Yacimiento:
     def __init__(self):
 
-        #Habria que pasarle los parametros con los que se construye
-        self.parcelas = [] 
+        # Habria que pasarle los parametros con los que se construye
+        self.parcelas = []
         self.volumen = 0
         self.porcentajePetroleo = 100
         self.porcentajeGas = 0
         self.porcentajeAgua = 0
-        
 
     def parcelas(self):
         return self.parcelas
 
     def volumenInicial(self):
-    	return self.volumenInicial
+        return self.volumenInicial
 
     def volumenActual(self):
         return self.volumenActual
 
-    def pasarDia():
+    def pasarDia(self):
         for p in self.parcelas:
             p.pasarDia()
 
     def extraer(self, cantProducto):
         self.volumenActual -= cantProducto
-        
 
     def reinyectarAgua(self, cantAgua):
-        #sacar las cuentas para cambiar el porcentaje y volumen
+        # sacar las cuentas para cambiar el porcentaje y volumen
         volumenNuevo = self.volumenActual + cantAgua
 
-        porcNuevoAgua = float(self.volumenActual * float(self.porcentajeAgua) / 100+ cantAgua) / volumenNuevo
+        porcNuevoAgua = float(self.volumenActual * float(self.porcentajeAgua) / 100 + cantAgua) / volumenNuevo
         porcNuevoGas = float(self.volumenActual * float(self.porcentajeGas) / 100) / volumenNuevo
         porcNuevoProducto = float(self.volumenActual * float(self.porcentajePetroleo) / 100) / volumenNuevo
 
@@ -40,10 +41,10 @@ class Yacimiento:
         self.porcentajeGas = porcNuevoGas
 
         for p in self.parcelas:
-        	p.reinyeccion()
+            p.reinyeccion()
 
     def reinyectarGas(self, cantGas):
-        #sacar las cuentas para cambiar el porcentaje y volumen
+        # sacar las cuentas para cambiar el porcentaje y volumen
         volumenNuevo = self.volumenActual + cantGas
 
         porcNuevoAgua = float(self.volumenActual * float(self.porcentajeAgua)) / volumenNuevo
@@ -63,9 +64,7 @@ class Yacimiento:
             p.tienePozo()
 
 
-
 class Parcela:
-
     def __init__(self, profundidad, presionInicial, resistencia, yacimiento, formulasParcela):
         self.presionInicial = presionInicial
         self.presion = presionInicial
@@ -75,28 +74,29 @@ class Parcela:
         self.pozo = Excavacion(self)
         self.formulas = formulasParcela
 
-    def extraer(numPozos):
+    def extraer(self,numPozos):
         potencial = self.formulas.potencial(self.presion, numPozos)
         self.yacimiento.extraer(potencial)
         return potencial
 
-    def reinyeccion():
-    	presion = presionInicial * float(self.yacimiento.volumenActual())/ self.yacimiento.volumenInicial()
+    def reinyeccion(self):
+        presion = self.presionInicial * float(self.yacimiento.volumenActual()) / self.yacimiento.volumenInicial()
 
-    def tienePozo():
+    def tienePozo(self):
         return type(self.pozo) is Pozo
 
-    def pasarDia():
-    	volumenR = self.yacimiento.volumenInicial()
-    	volumenRi = self.yacimiento.volumenActual()
-    	numPozos = self.yacimiento.numPozos()
-    	presion = self.formulas.presionAlSiguienteDia(self.presion, volumenR, volumenRi, numPozos)
+    def pasarDia(self):
+        volumenR = self.yacimiento.volumenInicial()
+        volumenRi = self.yacimiento.volumenActual()
+        numPozos = self.yacimiento.numPozos()
+        presion = self.formulas.presionAlSiguienteDia(self.presion, volumenR, volumenRi, numPozos)
+
 
 class Pozo:
     def __init__(self, parcela):
         self.parcela = parcela
 
-    def extraer(numPozos):
-        #El extractor hace la verificacion si se puede extraer de acuerdo a las estructuras disponibles
+    def extraer(self,numPozos):
+        # El extractor hace la verificacion si se puede extraer de acuerdo a las estructuras disponibles
         productoExtraido = self.parcela.extraer(numPozos)
         return productoExtraido

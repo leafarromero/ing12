@@ -1,5 +1,5 @@
 
 class PoliticaEjecucion:
 
-    def decidir():
+    def decidir(self):
         pass
