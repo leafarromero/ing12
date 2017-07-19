@@ -5,7 +5,7 @@ Created on 12 jul. 2017
 """
 import math
 
-from main.yacimiento import Yacimiento, Pozo
+from yacimiento import Yacimiento, Pozo
 
 
 class Simulacion:
@@ -13,7 +13,7 @@ class Simulacion:
         self.log = Log("log")
         self.diaNumero = 0
         self.scheduler = Scheduler()
-        self.contexto = Contexto()
+        self.contexto = Contexto("./config/")
 
     def comenzar(self):
         self.log.comenzar()
@@ -22,21 +22,6 @@ class Simulacion:
         self.log.escribirLinea("Comienza el dia " + self.diaNumero)
         self.scheduler.ejecutarPoliticas(self.contexto)
         self.diaNumero += 1
-
-
-class Excavacion:
-    def __init__(self, parcela):
-        self.parcela = parcela
-        self.metrosExcavados = 0
-
-    def excavar(self, metros):
-        self.metrosExcavados = min(self.metrosExcavados + metros, self.parcela.profundidad)
-        if (self.metrosRestantes()) == 0:
-            self.parcela.pozo = Pozo(self.parcela)
-
-    def metrosRestantes(self):
-        return (self.parcela.profundidad - self.metrosExcavados)
-
 
 class Log:
     def __init__(self, archivo):
@@ -146,10 +131,8 @@ class Estructuras(object):
 
 
 class Contexto:
-    def __init__(self):
-        self.formulas = Formulas()
-        self.yacimiento = Yacimiento()
-        # self.parametros = Parametros()
+    def __init__(self, configPath):
+        self.yacimiento = Yacimiento(configPath)
         # self.rigs = []
         self.tanques_agua = set()
         self.tanques_gas = set()
@@ -189,7 +172,6 @@ class Formulas:
 
     def betaI(self, volumenR, volumenRi, numPozos):
         return (0.1 * (volumenRi / volumenR)) / ((numPozos) ^ (2 / 3))
-
 
 class Bombeador:
     def __init__(self, tanquesAgua, tanquesGas, plantasSeparadoras, yacimiento, log):
@@ -279,8 +261,8 @@ class PlantaProcesadora:
         litrosDeAgua = composicionDeCrudo[1] * litrosDeCrudo / 100
         litrosDeGas = composicionDeCrudo[2] * litrosDeCrudo / 100
         self.vendedorDePetroleo.vender(litrosDePetroleo)
-        # return MaterialesSeparados(litrosDeAgua,litrosDeGas)
-        return (litrosDeAgua, litrosDeGas)
+        #return MaterialesSeparados(litrosDeAgua,litrosDeGas)
+        return (litrosDeAgua,litrosDeGas)
 
     def pasarDia(self):
         self.litrosProcesadosEnDia = 0

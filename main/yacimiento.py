@@ -1,15 +1,50 @@
-from main.simulacion import Excavacion
+class Formulas:    
+    def __init__(self, alpha1 = 0.35, alpha2 = 0.0075): 
+        if (0.1 <= alpha1 <= 0.6):
+            self.alpha1 = alpha1 
+        else:
+            raise ValueError
+        if (0.005 <= alpha2 <= 0.01):
+            self.alpha2 = alpha2
+        else:
+            raise ValueError
+        
+    def potencialVol(self,presion,volumenRi,numPozos):
+        sumando1 = self.alpha1 * (presion/numPozos)
+        sumando2 = self.alpha2 * ((presion/numPozos)^2)
+        return sumando1 + sumando2
+        
+    def presionAlSiguienteDia(self, presionAnterior, volumenR, volumenRi,numPozos):
+        betaI = self.betaI(volumenR, volumenRi, numPozos)
+        return presionAnterior * (math.e ^ -(betaI))
+    
+    def betaI(self, volumenR, volumenRi, numPozos):
+        return (0.1 * (volumenRi / volumenR)) / ((numPozos)^(2/3))
 
+    def reinyeccion(self, presionInicial, volumenActual, volumenInicial):
+        return presionInicial * float(volumenActual) / volumenInicial
 
 class Yacimiento:
-    def __init__(self):
+    def __init__(self, configPath):
+        #Leer yacimiento y definir volumen, porcentajes y parcelas
+        with open(configPath+'yacimiento.txt') as file:
+            params = file.readline().split()
+            self.volumen = int(params[0])
+            self.porcentajePetroleo = float(params[1])
+            self.porcentajeGas = float(params[2])
+            self.porcentajeAgua = float(params[3])
 
-        # Habria que pasarle los parametros con los que se construye
-        self.parcelas = []
-        self.volumen = 0
-        self.porcentajePetroleo = 100
-        self.porcentajeGas = 0
-        self.porcentajeAgua = 0
+            params = file.readline().split()
+            alfa1 = float(params[0])
+            alfa2 = float(params[1])
+            formulas = Formulas(alfa1, alfa2)
+            
+            self.parcelas = []
+            for line in file:
+                profundidad = int(line[0])
+                presionInicial = int(line[1])
+                resistencia = float(line[2])
+                self.parcelas.append(Parcela(profundidad, presionInicial, resistencia, self, formulas))
 
     def parcelas(self):
         return self.parcelas
@@ -31,9 +66,9 @@ class Yacimiento:
         # sacar las cuentas para cambiar el porcentaje y volumen
         volumenNuevo = self.volumenActual + cantAgua
 
-        porcNuevoAgua = float(self.volumenActual * float(self.porcentajeAgua) / 100 + cantAgua) / volumenNuevo
-        porcNuevoGas = float(self.volumenActual * float(self.porcentajeGas) / 100) / volumenNuevo
-        porcNuevoProducto = float(self.volumenActual * float(self.porcentajePetroleo) / 100) / volumenNuevo
+        porcNuevoAgua = float(self.volumenActual * self.porcentajeAgua + cantAgua * 100) / volumenNuevo
+        porcNuevoGas = float(self.volumenActual * self.porcentajeGas) / volumenNuevo
+        porcNuevoProducto = float(self.volumenActual * self.porcentajePetroleo) / volumenNuevo
 
         self.volumenActual = volumenNuevo
         self.porcentajeAgua = porcNuevoAgua
@@ -47,9 +82,9 @@ class Yacimiento:
         # sacar las cuentas para cambiar el porcentaje y volumen
         volumenNuevo = self.volumenActual + cantGas
 
-        porcNuevoAgua = float(self.volumenActual * float(self.porcentajeAgua)) / volumenNuevo
-        porcNuevoGas = 100 * float(self.volumenActual * float(self.porcentajeGas) / 100 + cantGas) / volumenNuevo
-        porcNuevoPetroleo = float(self.volumenActual * float(self.porcentajePetroleo)) / volumenNuevo
+        porcNuevoAgua = float(self.volumenActual * self.porcentajeAgua) / volumenNuevo
+        porcNuevoGas = float(self.volumenActual * self.porcentajeGas + cantGas * 100) / volumenNuevo
+        porcNuevoPetroleo = float(self.volumenActual * self.porcentajePetroleo) / volumenNuevo
 
         self.volumenActual = volumenNuevo
         self.porcentajeAgua = porcNuevoAgua
@@ -60,8 +95,10 @@ class Yacimiento:
             p.reinyeccion()
 
     def numPozos(self):
+        res = 0
         for p in self.parcelas:
-            p.tienePozo()
+            res = res + 1 if p.tienePozo() else res
+        return res
 
 
 class Parcela:
@@ -79,8 +116,11 @@ class Parcela:
         self.yacimiento.extraer(potencial)
         return potencial
 
-    def reinyeccion(self):
-        presion = self.presionInicial * float(self.yacimiento.volumenActual()) / self.yacimiento.volumenInicial()
+    def reinyeccion():
+    	presion = self.formulas.reinyeccion(self.presionInicial, self.yacimiento.volumenActual(), self.yacimiento.volumenInicial())
+
+    def abrirPozo():
+        self.pozo = Pozo(self)
 
     def tienePozo(self):
         return type(self.pozo) is Pozo
@@ -90,6 +130,20 @@ class Parcela:
         volumenRi = self.yacimiento.volumenActual()
         numPozos = self.yacimiento.numPozos()
         presion = self.formulas.presionAlSiguienteDia(self.presion, volumenR, volumenRi, numPozos)
+
+
+class Excavacion:
+    def __init__(self, parcela):
+        self.parcela = parcela
+        self.metrosExcavados = 0
+   
+    def excavar(self,metros):
+        self.metrosExcavados = min(self.metrosExcavados + metros, self.parcela.profundidad())
+        if (self.metrosRestantes())==0:
+            self.parcela.abrirPozo()
+
+    def metrosRestantes(self):
+        return (self.parcela.profundidad() - self.metrosExcavados)
 
 
 class Pozo:
