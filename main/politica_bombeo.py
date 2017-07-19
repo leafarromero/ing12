@@ -1,5 +1,5 @@
 from .politica_ejecucion import PoliticaEjecucion
-from .simulacion import Bombeador
+from .simulacion import Bombeador, TanqueAgua
 
 
 class PoliticaBombeo(PoliticaEjecucion):
@@ -37,7 +37,7 @@ class PoliticaBombeo(PoliticaEjecucion):
             # en caso afirmativo no se puede extraer
 
             # Se reinyecta con agua comprada o  agua y gas almacenada en los tanques
-            if tengo_agua_almacenada():
+            if self.tengo_agua_gas_almacenada(contexto):
                 # Usar usa agua
                 pass
             else:
@@ -58,3 +58,13 @@ class PoliticaBombeo(PoliticaEjecucion):
         for parcela in yacimiento.parcelas():
             if parcela.presion() < self._presion_critica:
                 reinyectar = True
+        return reinyectar
+
+    def tengo_agua_gas_almacenada(self,contexto):
+        for tanque_agua in contexto.dame_tanques_agua():
+            if tanque_agua.dame_litros() > 0
+                return True
+
+        for tanque_gas in contexto.dame_tanques_gas():
+            if tanque_gas.dame_litros() > 0:
+                return True

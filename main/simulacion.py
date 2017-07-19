@@ -85,13 +85,86 @@ class Scheduler:
         self.politicas.append(politica)
 
 
+class Estructura(object):
+    def costo_de_construccion(self):
+        pass
+
+    def tiempo_de_construccion(self):
+        pass
+
+    def fecha_de_inicio(self):
+        pass
+
+
+def Tanque(Estructura):
+    def capacidad(self):
+        pass
+
+    def litros(self):
+        pass
+
+
+def TanqueGas(Tanque):
+    def __init__(self, capacidad):
+        self._capacidad = capacidad
+        self._litros = 0
+
+    def capacidad(self):
+        return self._capacidad
+
+    def litros(self):
+        return self._litros
+
+    def llenar(self, volumen):
+        self._litros += volumen
+
+    def tranferir(self, volumen):
+        self._litros -= volumen
+
+
+def TanqueAgua(Tanque):
+    def __init__(self, capacidad):
+        self._capacidad = capacidad
+        self._litros = 0
+
+    def capacidad(self):
+        return self._capacidad
+
+    def litros(self):
+        return self._litros
+
+    def llenar(self, volumen):
+        self._litros += volumen
+
+    def tranferir(self, volumen):
+        self._litros -= volumen
+
+
+class Estructuras(object):
+    def __init__(self, estructuras):
+        self._estructuras = estructuras
+
+
 class Contexto:
     def __init__(self):
         self.formulas = Formulas()
         self.yacimiento = Yacimiento()
         # self.parametros = Parametros()
         # self.rigs = []
-        # self.estructuras = Estructuras()
+        self.tanques_agua = set()
+        self.tanques_gas = set()
+
+    def add_tanque_agua(self,tanque_agua):
+        self.tanques_agua.add(tanque_agua)
+
+    def dame_tanques_agua(self):
+        return self.tanques_agua
+
+    def add_tanque_gas(self,tanque_gas):
+        self.tanques_gas.add(tanque_gas)
+
+    def dame_tanques_gas(selfs):
+        return self.tanques_gas
 
 
 class Formulas:
