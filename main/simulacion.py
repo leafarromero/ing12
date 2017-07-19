@@ -104,7 +104,7 @@ def TanqueGas(Tanque):
     def llenar(self, volumen):
         self._litros += volumen
 
-    def tranferir(self, volumen):
+    def retirar(self, volumen):
         self._litros -= volumen
 
 
@@ -122,7 +122,7 @@ def TanqueAgua(Tanque):
     def llenar(self, volumen):
         self._litros += volumen
 
-    def tranferir(self, volumen):
+    def retirar(self, volumen):
         self._litros -= volumen
 
 

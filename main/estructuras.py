@@ -80,36 +80,36 @@ class Estructuras:
         for tanq in self.tanquesDeGas:
             cant = min(tanq.cantidadQuePuedeAlmacenar(), litrosDeGas)
             if cant != 0:
-                tanq.almacenar(composicionDeCrudo, cant)
-                litrosDeCrudo = litrosDeCrudo - cant
-            if litrosDeCrudo == 0:
+                tanq.almacenar(cant)
+                litrosDeGas = litrosDeGas - cant
+            if litrosDeGas == 0:
                 break
 
     def almacenarAgua(self, litrosDeAgua):
         for tanq in self.tanquesDeAgua:
             cant = min(tanq.cantidadQuePuedeAlmacenar(), litrosDeAgua)
             if cant != 0:
-                tanq.almacenar(composicionDeCrudo, cant)
-                litrosDeCrudo = litrosDeCrudo - cant
-            if litrosDeCrudo == 0:
+                tanq.almacenar(cant)
+                litrosDeAgua = litrosDeAgua - cant
+            if litrosDeAgua == 0:
                 break
 
     def retirarGas(self, litrosDeGas):
         for tanq in self.tanquesDeGas:
             cant = min(tanq.litrosAlmacenados(), litrosDeGas)
             if cant != 0:
-                tanq.retirar(composicionDeCrudo, cant)
-                litrosDeCrudo = litrosDeCrudo - cant
-            if litrosDeCrudo == 0:
+                tanq.retirar(cant)
+                litrosDeGas = litrosDeGas - cant
+            if litrosDeGas == 0:
                 break
 
     def retirarAgua(self, litrosDeAgua):
         for tanq in self.tanquesDeAgua:
             cant = min(tanq.litrosAlmacenados(), litrosDeAgua)
             if cant != 0:
-                tanq.retirar(composicionDeCrudo, cant)
-                litrosDeCrudo = litrosDeCrudo - cant
-            if litrosDeCrudo == 0:
+                tanq.retirar(cant)
+                litrosDeAgua = litrosDeAgua - cant
+            if litrosDeAgua == 0:
                 break
 
 
