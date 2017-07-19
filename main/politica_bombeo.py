@@ -1,8 +1,12 @@
 from .politica_ejecucion import PoliticaEjecucion
 from .simulacion import Bombeador, TanqueAgua
 
-
 class PoliticaBombeo(PoliticaEjecucion):
+
+    def decidir(self,contexto):
+        pass
+
+class UnaPoliticaBombeo(PoliticaBombeo):
     def __init__(self,
                  volumen_maximo_reinyeccion,
                  presion_critica,
