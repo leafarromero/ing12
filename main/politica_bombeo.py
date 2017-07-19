@@ -26,9 +26,10 @@ class PoliticaBombeo(PoliticaEjecucion):
 
     def decidir(self,contexto):
         pass
+        # Chequear que el pozo no este en dilusion critica
         # Chequear si algun pozo hay que reinyectar
         # en caso afirmativo no se puede extraer
-        # en caso negativo se extraer de los pozos que esten por encima de dilusion_critica
+        # en caso negativo se extrae de los pozos
 
         # Se reinyecta con agua comprada o  agua y gas almacenada en los tanques
         # La presion despues de reinyectar es
