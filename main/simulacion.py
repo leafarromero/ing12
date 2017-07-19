@@ -134,9 +134,14 @@ class Contexto:
     def __init__(self, configPath):
         self.yacimiento = Yacimiento(configPath)
         self.administradorDeRigs = AdministradorDeRigs(configPath)
-        self.excavador = Excavador(configPath)
+        #self.excavador = Excavador(configPath)
         self.estructuras = Estructuras(configPath)
-        self.constructor = Constructor(configPath)
+        #self.constructor = Constructor(configPath)
+
+    def pasarDia(self):
+        self.yacimiento.pasarDia()
+        self.administradorDeRigs.pasarDia()
+        self.estructuras.pasarDia()
 
 
 class Formulas:

@@ -14,6 +14,17 @@ class Estructuras:
             self.tiempoTanqueGasPorLitro = lineaParseada[2]
             self.tiempoPlantaPorLitro = lineaParseada[4]
 
+	def pasarDia(self):
+		for planta in self.plantasSeparadoras:
+			planta.pasarDia()
+		for tanqAg in self._tanquesDeAguaEnConstruccion:
+			tanqAg.pasarDia()
+		for tanqG in self._tanquesDeGasEnConstruccion:
+			tanqG.pasarDia()
+		for planta in self._plantasSeparadorasEnConstruccion:
+			planta.pasarDia()
+
+
 	def tanquesDeAguaEnConstruccion(self):
 		return set(self._tanquesDeAguaEnConstruccion)
 
@@ -49,19 +60,19 @@ class Estructuras:
 
 	def litrosPorDiaDePlantas(self):
 		res = 0
-		for planta in self.plantasProcesadoras:
+		for planta in self.plantasSeparadoras:
 			res = res + planta.litrosPorDia()
 		return res
 
 	def cantidadQuePuedeProcesarEnDia(self):
 		res = 0
-		for planta in self.plantasProcesadoras:
+		for planta in self.plantasSeparadoras:
 			res = res + planta.cantidadQuePuedeProcesarEnDia()
 		return res
 
 	def almacenarAgua(self):
 		res = 0
-		for planta in self.plantasProcesadoras:
+		for planta in self.plantasSeparadoras:
 			res = res + planta.cantidadQuePuedeProcesarEnDia()
 		return res
 
@@ -136,10 +147,10 @@ class Estructuras:
     def construirPlantaSeparadora(self,litros,log):
     	def agregarNuevaPlantaProcesadora():
     		log.escribirLinea("terminado planta separadora, litros: " + str(litros) + "\n")
-    		self.plantasProcesadoras.add(PlantaProcesadoras(litros))
+    		self.plantasSeparadoras.add(PlantaProcesadoras(litros))
     	def quitarConstructorPlantaProcesadora(constructor):
-    		self.plantasProcesadoras.discart(constructor)
-    	self.plantasProcesadoras.add(EstructuraConstruccion(litros*self.tiempoPlantaPorLitro,agregarNuevaPlantaProcesadora,quitarConstructorPlantaProcesadora))
+    		self.plantasSeparadoras.discart(constructor)
+    	self.plantasSeparadoras.add(EstructuraConstruccion(litros*self.tiempoPlantaPorLitro,agregarNuevaPlantaProcesadora,quitarConstructorPlantaProcesadora))
 
     def capacidadMaximaDeTanquesDeAguaAFuturo(self):
 		res = 0
