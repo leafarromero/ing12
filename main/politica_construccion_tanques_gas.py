@@ -1,3 +1,4 @@
+from politica_ejecucion import PoliticaEjecucion
 from constructor import Constructor
 
 class PoliticaConstruccionTanquesGas(PoliticaEjecucion):

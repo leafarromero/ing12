@@ -1,5 +1,5 @@
 
-import PoliticaEjecucion
+from politica_ejecucion import PoliticaEjecucion
 
 class PoliticaVentaGas(PoliticaEjecucion):
 
