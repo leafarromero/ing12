@@ -58,16 +58,22 @@ class Yacimiento:
 		for p in self.parcelas:
         	p.reinyeccion()
 
+    def numPozos(self):
+        for p in self.parcelas:
+            p.tienePozo()
+
+
 
 class Parcela:
 
-    def __init__(self, profundidad, presionInicial, resistencia, yacimiento):
+    def __init__(self, profundidad, presionInicial, resistencia, yacimiento, formulasParcela):
         self.presionInicial = presionInicial
         self.presion = presionInicial
         self.profundidad = profundidad
         self.resistencia = resistencia
         self.yacimiento = yacimiento
         self.pozo = Excavacion(self)
+        self.formulas = formulasParcela
 
     def extraer(numPozos):
         potencial = self.formulas.potencial(self.presion, numPozos)
@@ -77,13 +83,16 @@ class Parcela:
     def reinyeccion():
     	presion = presionInicial * float(self.yacimiento.volumenActual())/ self.yacimiento.volumenInicial()
 
+    def tienePozo():
+        return type(self.pozo) is Pozo
+
     def pasarDia():
     	volumenR = self.yacimiento.volumenInicial()
     	volumenRi = self.yacimiento.volumenActual()
     	numPozos = self.yacimiento.numPozos()
     	presion = self.formulas.presionAlSiguienteDia(self.presion, volumenR, volumenRi, numPozos)
 
-class pozo:
+class Pozo:
     def __init__(self, parcela):
         self.parcela = parcela
 
