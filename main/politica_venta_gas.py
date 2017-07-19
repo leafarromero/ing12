@@ -6,5 +6,8 @@ class PoliticaVentaGas(PoliticaEjecucion):
     def __init__(self):
         self._vendedor_gas = VendedorGas()
 
-    def decidir(self):
-        pass
+    def decidir(self,admin_tanques_gas):
+        max_gas = 2000
+        almacenada = admin_tanques_gas.cantidad_almacenada()
+        if almacenada > max_gas:
+            admin_tanques_gas.vender(almacenada - max_gas)
