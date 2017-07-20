@@ -18,6 +18,7 @@ class Simulacion:
         self.diaNumero = 0
         self.contexto = Contexto("./config/")
         self.scheduler = Scheduler(self.log,self.contexto,politicaAlquilerRigs,politicaExcavacion,politicaBombeo,politicaConstruccionPlantas,politicaConstruccionTanquesAgua,politicaConstruccionTanquesGas,politicaVentaGas,"./config/")
+        self.finalizacion = Finalizacion()
 
     def comenzar(self):
         self.log.comenzar()
@@ -27,6 +28,19 @@ class Simulacion:
         self.scheduler.ejecutarPoliticas(self.contexto)
         self.contexto.pasarDia(self.log)
         self.diaNumero += 1
+
+    def finalize(self):
+        return self.finalizacion.finalize()
+
+class Finalizacion:
+
+    def __init__(self):
+        pass
+
+    def finalize(self, contexto, dilusion_critica):
+        if contexto.yacimiento.porcentajePetroleo < dilusion_critica:
+            return True
+        return False
 
 class Log:
     def __init__(self, archivo):
