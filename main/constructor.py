@@ -6,9 +6,9 @@ class Constructor:
         with open(archivo, "r") as file:
             linea = file.readline()
             lineaParseada = linea.split(" ")
-            self.costoTanqueAguaPorLitro = lineaParseada[1]
-            self.costoTanqueGasPorLitro = lineaParseada[3]
-            self.costoPlantaPorLitro = lineaParseada[5]
+            self.costoTanqueAguaPorLitro = float(lineaParseada[1])
+            self.costoTanqueGasPorLitro = float(lineaParseada[3])
+            self.costoPlantaPorLitro = float(lineaParseada[5])
 
     def construirTanqueAgua(self, litros):
         self.log.escribirLinea("comienzo a construir tanque de agua, litros: " + str(litros) + "\n")

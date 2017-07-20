@@ -1,11 +1,13 @@
+from estructuraEnConstruccion import EstructuraConstruccion
+
 class Estructuras:
     def __init__(self,confPath):
-        self.tanquesDeAgua = {}
-        self.tanquesDeGas = {}
-        self.plantasSeparadoras = {}
-        self._tanquesDeAguaEnConstruccion = {}
-        self._tanquesDeGasEnConstruccion = {}
-        self._plantasSeparadorasEnConstruccion = {}
+        self.tanquesDeAgua = set()
+        self.tanquesDeGas = set()
+        self.plantasSeparadoras = set()
+        self._tanquesDeAguaEnConstruccion = set()
+        self._tanquesDeGasEnConstruccion = set()
+        self._plantasSeparadorasEnConstruccion = set()
         archivo = confPath + "estructuras.txt"
         with open(archivo, "r") as as_file:
             linea = as_file.readline()

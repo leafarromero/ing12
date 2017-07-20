@@ -66,7 +66,7 @@ class AdministradorDeRigs:
         self._rigs.add(rig)
 
     def pasarDia(self,log):
-        rigsABorrar = {}
+        rigsABorrar = set()
         for rig in self._rigs:
             rig.pasarDia()
             if rig.diasRestantes() == 0:

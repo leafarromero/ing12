@@ -79,7 +79,7 @@ class Log:
         self.escribirLinea("Ingreso de dolares: " + str(dinero) + "\n")
 
     def gasto(self, dinero):
-        self.dineroGanado -= dinero
+        self.dineroPerdido += dinero
         self.escribirLinea("Gasto de dolares: " + str(dinero) + "\n")
 
     def ventas(self):
