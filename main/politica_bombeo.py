@@ -30,9 +30,9 @@ class UnaPoliticaBombeo(PoliticaBombeo):
             return
 
         # Chequear si algun pozo hay que reinyectar
-        if self.hay_que_reinyectar(unYacimiento):
+        if self.hay_que_reinyectar(contexto,unYacimiento):
             # en caso afirmativo no se puede extraer
-            volumen_a_reinyectar = min(self._volumen_maximo_reinyeccion,contexto.yacimiento().volumenInicial())
+            volumen_a_reinyectar = min(self._volumen_maximo_reinyeccion,contexto.yacimiento().volumenInicial()-contexto.yacimiento().volumenActual())
 
             # Usar Agua almacenada
             agua_almacenada = contexto.estructuras().litrosDeAguaAlmacenada()
@@ -84,8 +84,13 @@ class UnaPoliticaBombeo(PoliticaBombeo):
                 pozos = filter(lambda parcela: parcela.tienePozo(),contexto.yacimiento().parcelas())
                 bombeador.extraer(pozos[1:pozos_necesarios_agua])
 
-    def hay_que_reinyectar(self,yacimiento):
+    def hay_que_reinyectar(self,contexto,yacimiento):
         _reinyectar = False
+        volumenMaximo = min(self._volumen_maximo_reinyeccion,contexto.yacimiento().volumenInicial()-contexto.yacimiento().volumenActual())
+        if volumenMaximo==0:
+            return False
+        if contexto.numPozos()==0:
+            return False
         for parcela in filter((lambda parcela: parcela.tienePozo()), yacimiento.parcelas()):
             if parcela.presion() < self._presion_critica:
                 _reinyectar = True

@@ -133,54 +133,7 @@ class Scheduler:
         self.politicaConstruccionTanquesGas.decidir(contexto, self.constructor)
 
 
-def Tanque(Estructura):
-    def capacidad(self):
-        pass
 
-    def litros(self):
-        pass
-
-    def llenar(self, volumen):
-        pass
-
-    def retirar(self, volumen):
-        pass
-
-
-def TanqueGas(Tanque):
-    def __init__(self, capacidad):
-        self._capacidad = capacidad
-        self._litros = 0
-
-    def capacidad(self):
-        return self._capacidad
-
-    def litros(self):
-        return self._litros
-
-    def llenar(self, volumen):
-        self._litros += volumen
-
-    def retirar(self, volumen):
-        self._litros -= volumen
-
-
-def TanqueAgua(Tanque):
-    def __init__(self, capacidad):
-        self._capacidad = capacidad
-        self._litros = 0
-
-    def capacidad(self):
-        return self._capacidad
-
-    def litros(self):
-        return self._litros
-
-    def llenar(self, volumen):
-        self._litros += volumen
-
-    def retirar(self, volumen):
-        self._litros -= volumen
 
 
 class Contexto:
@@ -191,7 +144,7 @@ class Contexto:
 
     def pasarDia(self, log):
         self._yacimiento.pasarDia()
-        self._administradorDeRigs().pasarDia(log)
+        self._administradorDeRigs.pasarDia(log)
         self._estructuras.pasarDia()
 
     def yacimiento(self):

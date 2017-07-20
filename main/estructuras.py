@@ -1,5 +1,55 @@
 from estructuraEnConstruccion import EstructuraConstruccion
 
+
+class Tanque:
+    def capacidad(self):
+        pass
+
+    def litros(self):
+        pass
+
+    def llenar(self, volumen):
+        pass
+
+    def retirar(self, volumen):
+        pass
+
+
+class TanqueGas(Tanque):
+    def __init__(self, capacidad):
+        self._capacidad = capacidad
+        self._litros = 0
+
+    def capacidad(self):
+        return self._capacidad
+
+    def litros(self):
+        return self._litros
+
+    def llenar(self, volumen):
+        self._litros += volumen
+
+    def retirar(self, volumen):
+        self._litros -= volumen
+
+
+class TanqueAgua(Tanque):
+    def __init__(self, capacidad):
+        self._capacidad = capacidad
+        self._litros = 0
+
+    def capacidad(self):
+        return self._capacidad
+
+    def litros(self):
+        return self._litros
+
+    def llenar(self, volumen):
+        self._litros += volumen
+
+    def retirar(self, volumen):
+        self._litros -= volumen
+
 class Estructuras:
     def __init__(self,confPath):
         self.tanquesDeAgua = set()
@@ -12,9 +62,9 @@ class Estructuras:
         with open(archivo, "r") as as_file:
             linea = as_file.readline()
             lineaParseada = linea.split(" ")
-            self.tiempoTanqueAguaPorLitro = lineaParseada[0]
-            self.tiempoTanqueGasPorLitro = lineaParseada[2]
-            self.tiempoPlantaPorLitro = lineaParseada[4]
+            self.tiempoTanqueAguaPorLitro = int(lineaParseada[0])
+            self.tiempoTanqueGasPorLitro = int(lineaParseada[2])
+            self.tiempoPlantaPorLitro = int(lineaParseada[4])
 
     def pasarDia(self):
         for planta in self.plantasSeparadoras:
@@ -39,7 +89,7 @@ class Estructuras:
     def capacidadMaximaDeTanquesDeAgua(self):
         res = 0
         for tanque in self.tanquesDeAgua:
-            res = res + tanque.litrosMaximo()
+            res = res + tanque.litros()
         return res
 
     def litrosDeAguaAlmacenada(self):
@@ -51,7 +101,7 @@ class Estructuras:
     def capacidadMaximaDeTanquesDeGas(self):
         res = 0
         for tanque in self.tanquesDeGas:
-            res = res + tanque.litrosMaximo()
+            res = res + tanque.litros()
         return res
 
     def litrosDeGasAlmacenado(self):
@@ -127,7 +177,7 @@ class Estructuras:
     def construirTanqueAgua(self,litros,log):
         def agregarNuevoTanqueAgua():
             log.escribirLinea("terminado tanque de agua, litros: " + str(litros) + "\n")
-            self.tanquesDeAgua.add(TanqueDeAgua(litros))
+            self.tanquesDeAgua.add(TanqueAgua(litros))
         def quitarConstructorTanqueAgua(constructor):
             self._tanquesDeGasEnConstruccion.discard(constructor)
         self._tanquesDeAguaEnConstruccion.add(EstructuraConstruccion(litros*self.tiempoTanqueAguaPorLitro,litros,agregarNuevoTanqueAgua,quitarConstructorTanqueAgua))
@@ -135,7 +185,7 @@ class Estructuras:
     def construirTanqueGas(self,litros,log):
         def agregarNuevoTanqueGas():
             log.escribirLinea("terminado tanque de gas, litros: " + str(litros) + "\n")
-            self.tanquesDeGas.add(TanqueDeGas(litros))
+            self.tanquesDeGas.add(TanqueGas(litros))
         def quitarConstructorTanqueGas(constructor):
             self._tanquesDeGasEnConstruccion.discard(constructor)
         self._tanquesDeGasEnConstruccion.add(EstructuraConstruccion(litros*self.tiempoTanqueGasPorLitro,litros,agregarNuevoTanqueGas,quitarConstructorTanqueGas))
@@ -145,8 +195,8 @@ class Estructuras:
             log.escribirLinea("terminado planta separadora, litros: " + str(litros) + "\n")
             self.plantasSeparadoras.add(PlantaProcesadoras(litros))
         def quitarConstructorPlantaProcesadora(constructor):
-            self.plantasSeparadoras.discard(constructor)
-        self.plantasSeparadoras.add(EstructuraConstruccion(litros*self.tiempoPlantaPorLitro,litros,agregarNuevaPlantaProcesadora,quitarConstructorPlantaProcesadora))
+            self._plantasSeparadorasEnConstruccion.discard(constructor)
+        self._plantasSeparadorasEnConstruccion.add(EstructuraConstruccion(litros*self.tiempoPlantaPorLitro,litros,agregarNuevaPlantaProcesadora,quitarConstructorPlantaProcesadora))
 
     def capacidadMaximaDeTanquesDeAguaAFuturo(self):
         res = 0

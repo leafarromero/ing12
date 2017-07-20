@@ -154,7 +154,8 @@ class Parcela:
         volumenR = self.yacimiento.volumenInicial()
         volumenRi = self.yacimiento.volumenActual()
         numPozos = self.yacimiento.numPozos()
-        self.presion = self.formulas.presionAlSiguienteDia(self.presion, volumenR, volumenRi, numPozos)
+        if numPozos!=0:
+            self.presion = self.formulas.presionAlSiguienteDia(self.presion, volumenR, volumenRi, numPozos)
 
 
 class Excavacion:
