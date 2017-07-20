@@ -14,3 +14,4 @@ class UnaPoliticaAlquilerRig(PoliticaAlquilerRig):
 
     def decidir(self):
         pass
+

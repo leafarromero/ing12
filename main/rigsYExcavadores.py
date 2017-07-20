@@ -1,4 +1,4 @@
-from modeloDeRig import ModeloDeRig, cargarModelosDeRig
+from .modeloDeRig import ModeloDeRig, cargarModelosDeRig
 
 class Rig:
     def __init__(self, modelo, diasRestantes):
