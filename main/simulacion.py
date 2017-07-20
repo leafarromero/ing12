@@ -4,11 +4,11 @@ Created on 12 jul. 2017
 @author: Luis
 """
 
-from bombeador import Bombeador
-from constructor import Constructor
-from rigsYExcavadores import Excavador, RigManager, AdministradorDeRigs
-from vendedor_gas import VendedorGas
-from yacimiento import Yacimiento
+from .bombeador import Bombeador
+from .constructor import Constructor
+from .rigsYExcavadores import Excavador, RigManager, AdministradorDeRigs
+from .vendedor_gas import VendedorGas
+from .yacimiento import Yacimiento
 
 
 class Simulacion:
