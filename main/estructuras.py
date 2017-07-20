@@ -127,7 +127,7 @@ class Estructuras:
             log.escribirLinea("terminado tanque de agua, litros: " + str(litros) + "\n")
             self.tanquesDeAgua.add(TanqueDeAgua(litros))
         def quitarConstructorTanqueAgua(constructor):
-            self._tanquesDeGasEnConstruccion.discart(constructor)
+            self._tanquesDeGasEnConstruccion.discard(constructor)
         self._tanquesDeAguaEnConstruccion.add(EstructuraConstruccion(litros*self.tiempoTanqueAguaPorLitro,agregarNuevoTanqueAgua,quitarConstructorTanqueAgua))
 
     def construirTanqueGas(self,litros,log):
@@ -135,7 +135,7 @@ class Estructuras:
             log.escribirLinea("terminado tanque de gas, litros: " + str(litros) + "\n")
             self.tanquesDeGas.add(TanqueDeGas(litros))
         def quitarConstructorTanqueGas(constructor):
-            self._tanquesDeGasEnConstruccion.discart(constructor)
+            self._tanquesDeGasEnConstruccion.discard(constructor)
         self._tanquesDeGasEnConstruccion.add(EstructuraConstruccion(litros*self.tiempoTanqueGasPorLitro,agregarNuevoTanqueGas,quitarConstructorTanqueGas))
 
     def construirPlantaSeparadora(self,litros,log):
@@ -143,7 +143,7 @@ class Estructuras:
             log.escribirLinea("terminado planta separadora, litros: " + str(litros) + "\n")
             self.plantasSeparadoras.add(PlantaProcesadoras(litros))
         def quitarConstructorPlantaProcesadora(constructor):
-            self.plantasSeparadoras.discart(constructor)
+            self.plantasSeparadoras.discard(constructor)
         self.plantasSeparadoras.add(EstructuraConstruccion(litros*self.tiempoPlantaPorLitro,agregarNuevaPlantaProcesadora,quitarConstructorPlantaProcesadora))
 
     def capacidadMaximaDeTanquesDeAguaAFuturo(self):
