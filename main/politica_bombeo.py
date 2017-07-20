@@ -34,9 +34,13 @@ class UnaPoliticaBombeo(PoliticaBombeo):
             # en caso afirmativo no se puede extraer
 
             # Se reinyecta con agua comprada o  agua y gas almacenada en los tanques
-            if self.tengo_agua_gas_almacenada(contexto):
+            if contexto.estructuras.litrosDeGasAlmacenado() > 0:
+                unYacimiento.reinyectarGas(cant_gas)
+
+
+            if contexto.estructuras.litrosDeAguaAlmacenada() > 0:
                 # Usar usa agua
-                pass
+                unYacimiento.reinyectarAgua(cant_agua)
             else:
                 # Comprar agua
                 pass

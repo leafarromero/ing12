@@ -13,11 +13,14 @@ from .yacimiento import Yacimiento, Pozo
 
 
 class Simulacion:
-    def __init__(self,politicaAlquilerRigs,politicaExcavacion,politicaBombeo,politicaConstruccionPlantas,politicaConstruccionTanquesAgua,politicaConstruccionTanquesGas,politicaVentaGas):
+    def __init__(self, politicaAlquilerRigs, politicaExcavacion, politicaBombeo, politicaConstruccionPlantas,
+                 politicaConstruccionTanquesAgua, politicaConstruccionTanquesGas, politicaVentaGas):
         self.log = Log("log")
         self.diaNumero = 0
         self.contexto = Contexto("./config/")
-        self.scheduler = Scheduler(self.log,self.contexto,politicaAlquilerRigs,politicaExcavacion,politicaBombeo,politicaConstruccionPlantas,politicaConstruccionTanquesAgua,politicaConstruccionTanquesGas,politicaVentaGas,"./config/")
+        self.scheduler = Scheduler(self.log, self.contexto, politicaAlquilerRigs, politicaExcavacion, politicaBombeo,
+                                   politicaConstruccionPlantas, politicaConstruccionTanquesAgua,
+                                   politicaConstruccionTanquesGas, politicaVentaGas, "./config/")
         self.finalizacion = Finalizacion()
 
     def comenzar(self):
@@ -32,8 +35,8 @@ class Simulacion:
     def finalize(self):
         return self.finalizacion.finalize()
 
-class Finalizacion:
 
+class Finalizacion:
     def __init__(self):
         pass
 
@@ -41,6 +44,7 @@ class Finalizacion:
         if contexto.yacimiento.porcentajePetroleo < dilusion_critica:
             return True
         return False
+
 
 class Log:
     def __init__(self, archivo):
@@ -76,24 +80,29 @@ class Log:
     def balance(self):
         self.log.escribirLinea("ganancias hasta la fecha: " + str(self.dineroGanado - self.dineroPerdido))
 
+
 class CompradorDeAgua:
-    def __init__(self,log,confPath):
+    def __init__(self, log, confPath):
         self.log = log
         archivo = confPath + "compradorDeGas.txt"
         with open(archivo, "r") as file:
             linea = file.readLine()
             self.dolaresPorLitroDeAgua = float(linea)
-    def comprar(self,litrosDeAgua):
+
+    def comprar(self, litrosDeAgua):
         self.log.escribirLinea("se compro " + str(litrosDeAgua) + "litros de agua\n")
         self.log.gasto(self.dolaresPorLitroDeAgua * litrosDeAgua)
 
+
 class Scheduler:
-    def __init__(self,log,contexto,politicaAlquilerRigs,politicaExcavacion,politicaBombeo,politicaConstruccionPlantas,politicaConstruccionTanquesAgua,politicaConstruccionTanquesGas,politicaVentaGas,confPath):
-        self.excavador = Excavador(log,confPath)
-        self.bombeador = Bombeador(log, contexto.estructuras, contexto.yacimiento,CompradorDeAgua(log,confPath))
-        self.constructor = Constructor(log,contexto.estructuras,confPath)
+    def __init__(self, log, contexto, politicaAlquilerRigs, politicaExcavacion, politicaBombeo,
+                 politicaConstruccionPlantas, politicaConstruccionTanquesAgua, politicaConstruccionTanquesGas,
+                 politicaVentaGas, confPath):
+        self.excavador = Excavador(log, confPath)
+        self.bombeador = Bombeador(log, contexto.estructuras, contexto.yacimiento, CompradorDeAgua(log, confPath))
+        self.constructor = Constructor(log, contexto.estructuras, confPath)
         self.rigManager = RigManager(log, contexto.administradorDeRig)
-        self.vendedorDeGas = VendedorGas(log, contexto.estructuras,confPath)
+        self.vendedorDeGas = VendedorGas(log, contexto.estructuras, confPath)
 
         self.politicaVentaGas = politicaVentaGas
         self.politicaAlquilerRigs = politicaAlquilerRigs
@@ -103,15 +112,14 @@ class Scheduler:
         self.politicaConstruccionTanquesAgua = politicaConstruccionTanquesAgua
         self.politicaConstruccionTanquesGas = politicaConstruccionTanquesGas
 
-
     def ejecutarPoliticas(self, contexto):
-        self.politicaVentaGas.decidir(contexto,self.vendedorDeGas)
-        self.politicaAlquilerRigs.decidir(contexto,self.rigManager)
-        self.politicaExcavacion.decidir(contexto,self.excavador)
-        self.politicaBombeo.decidir(contexto,self.bombeador)
-        self.politicaConstruccionPlantas.decidir(contexto,self.constructor)
-        self.politicaConstruccionTanquesAgua.decidir(contexto,self.constructor)
-        self.politicaConstruccionTanquesGas.decidir(contexto,self.constructor)
+        self.politicaVentaGas.decidir(contexto, self.vendedorDeGas)
+        self.politicaAlquilerRigs.decidir(contexto, self.rigManager)
+        self.politicaExcavacion.decidir(contexto, self.excavador)
+        self.politicaBombeo.decidir(contexto, self.bombeador)
+        self.politicaConstruccionPlantas.decidir(contexto, self.constructor)
+        self.politicaConstruccionTanquesAgua.decidir(contexto, self.constructor)
+        self.politicaConstruccionTanquesGas.decidir(contexto, self.constructor)
 
 
 def Tanque(Estructura):
@@ -175,19 +183,19 @@ class Contexto:
         self.administradorDeRigs = AdministradorDeRigs(confPath)
         self.estructuras = Estructuras(confPath)
 
-    def pasarDia(self,log):
+    def pasarDia(self, log):
         self.yacimiento.pasarDia()
         self.administradorDeRigs.pasarDia(log)
         self.estructuras.pasarDia()
 
     def yacimiento(self):
-    	return self.yacimiento
+        return self.yacimiento
 
     def administradorDeRigs(self):
-    	return self.administradorDeRigs
+        return self.administradorDeRigs
 
     def estructuras(self):
-    	return self.estructuras
+        return self.estructuras
 
 
 class Tanque:
@@ -196,7 +204,7 @@ class Tanque:
         self._litrosAlmacenados = 0
 
     def cantidadQuePuedeAlmacenar(self):
-        self.capacidadEnLitros - self._litrosAlmacenados
+        return self.capacidadEnLitros - self._litrosAlmacenados
 
     def almacenar(self, litros):
         if (self._litrosAlmacenados + litros > self.capacidadEnLitros):
@@ -230,13 +238,14 @@ class PlantaProcesadora:
         litrosDeAgua = composicionDeCrudo[1] * litrosDeCrudo / 100
         litrosDeGas = composicionDeCrudo[2] * litrosDeCrudo / 100
         self.vendedorDePetroleo.vender(litrosDePetroleo)
-        return (litrosDeAgua,litrosDeGas)
+        return (litrosDeAgua, litrosDeGas)
 
     def pasarDia(self):
         self.litrosProcesadosEnDia = 0
 
     def litrosPorDia(self):
         return self._litrosPorDia
+
 
 class VendedorDePetroleo:
     def __init__(self, dolarPorLitro, log):
