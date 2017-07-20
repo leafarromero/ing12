@@ -40,13 +40,13 @@ class UnaPoliticaBombeo(PoliticaBombeo):
             bombeador.reinyectarAgua(min2)
             volumen_a_reinyectar -= min2
             
-            # gas almacenada en los tanques
+            # porcentaje_gas almacenada en los tanques
             gas_almacenado = contexto.estructuras.litrosDeGasAlmacenado()
             min1 = min(gas_almacenado, volumen_a_reinyectar)
             bombeador.reinyectarGas(min1)
             volumen_a_reinyectar -= min1
 
-            # Comprar agua e inyectar
+            # Comprar porcentaje_agua e inyectar
             comprador.compradorDeAgua(volumen_a_reinyectar)
             bombeador.reinyectarAgua(volumen_a_reinyectar)
 
@@ -66,16 +66,16 @@ class UnaPoliticaBombeo(PoliticaBombeo):
             
             capacidad_procesamiento = contexto.estructuras.litrosPorDiaDePlantas()
 
-            %agua = contexto.yacimiento.porcentajeAgua()
-            %petroleo = contexto.yacimiento.porcentajePetroleo()
-            %gas = contexto.yacimiento.porcentajeGas()
+            porcentaje_agua = contexto.yacimiento.porcentajeAgua()
+            porcentaje_petroleo = contexto.yacimiento.porcentajePetroleo()
+            porcentaje_gas = contexto.yacimiento.porcentajeGas()
 
-            cant_pozos_limitado_agua = max_agua_puedo_extraer / cant_extraer_por_pozo * %agua
-            cant_pozos_limitad_gas = max_gas_puedo_extraer / cant_extraer_por_pozo * %gas
-            cant_pozos_limitad_petroleo = capacidad_procesamiento / cant_extraer_por_pozo * %petroleo
+            cant_pozos_limitado_agua = max_agua_puedo_extraer / cant_extraer_por_pozo * porcentaje_agua
+            cant_pozos_limitado_gas = max_gas_puedo_extraer / cant_extraer_por_pozo * porcentaje_gas
+            cant_pozos_limitado_petroleo = capacidad_procesamiento / cant_extraer_por_pozo * porcentaje_petroleo
 
-            pozos_necesarios_agua = min(cant_pozos_limitad_gas, cant_pozos_limitad_petroleo,
-                                        cant_pozos_limitad_petroleo)
+            pozos_necesarios_agua = min(cant_pozos_limitado_gas, cant_pozos_limitado_petroleo,
+                                        cant_pozos_limitado_agua)
 
             pozos = filter(lambda parcela: parcela.tienePozo(),contexto.yacimiento.parcelas())
             bombeador.extraer(pozos[1:pozos_necesarios_agua])
