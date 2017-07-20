@@ -12,12 +12,6 @@ class UnaPoliticaVentaGas(PoliticaVentaGas):
 
     def decidir(self,contexto, vendedor):
         max_gas = 2000
-        tanques_gas = contexto.estructuras.dame_tanques_gas()
-        almacenada = gas_almacenado(tanques_gas)
+        almacenada = contexto.estructuras.litrosDeGasAlmacenado()
         if almacenada > max_gas:
-            vendedor_gas.vender(almacenada - max_gas)
-
-        def gas_almacenado(tanques_gas):
-            litros = 0
-            for tanque in tanques_gas:
-                litros += tanque.litros()
+            vendedor.vender(almacenada - max_gas)

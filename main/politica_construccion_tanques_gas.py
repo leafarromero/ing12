@@ -16,6 +16,8 @@ class PoliticaGasPost80(PoliticaConstruccionTanquesGas):
             constructor.contruir_tanque_gas(1,1,1)
 
     def estan_al_limite(tanques):
-        res = True
+
         for tanque in tanques:
-            if tanque.litros() < tanque.max
+            if tanque.litros() < tanque.cantidadQuePuedeAlmacenar() * 0.8:
+                return False
+        return True

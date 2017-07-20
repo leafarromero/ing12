@@ -55,7 +55,7 @@ class UnaPoliticaBombeo(PoliticaBombeo):
 
     def tengo_agua_gas_almacenada(self,contexto):
         for tanque_agua in contexto.estructuras.dame_tanques_agua():
-            if tanque_agua.litros() > 0
+            if tanque_agua.litros() > 0:
                 return True
 
         for tanque_gas in contexto.dame_tanques_gas():

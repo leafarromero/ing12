@@ -14,14 +14,13 @@ class PoliticaSepPost80(PoliticaConstruccionTanquesSep):
     def decidir(self,contexto, constructor):
         estructuras = contexto.estructuras
 
-        cant_puede_procesar = estructuras.cantidadQuePuedeProcesarEnDiaAFuturo() +
-            estructuras.cantidadQuePuedeProcesarEnDia()
+        cant_puede_procesar = estructuras.cantidadQuePuedeProcesarEnDiaAFuturo() \
+                              + estructuras.cantidadQuePuedeProcesarEnDia()
 
-        cant_almacenar_gas = estructuras.capacidadMaximaDeTanquesDeAgua() +
-            estructuras.capacidadMaximaDeTanquesDeAguaAFuturo()
-        cant_almacenar_agua = estructuras.capacidadMaximaDeTanquesDeGas() +
-            estructuras.capacidadMaximaDeTanquesDeGasAFuturo
+        cant_almacenar_gas = estructuras.capacidadMaximaDeTanquesDeAgua() \
+                            + estructuras.capacidadMaximaDeTanquesDeAguaAFuturo()
+        cant_almacenar_agua = estructuras.capacidadMaximaDeTanquesDeGas() \
+                            +  estructuras.capacidadMaximaDeTanquesDeGasAFuturo
 
-        if cant_puede_procesar => cant_almacenar_gas or
-          cant_puede_procesar => cant_almacenar_agua:
+        if cant_puede_procesar >= cant_almacenar_gas or cant_puede_procesar >= cant_almacenar_agua:
             constructor.construirPlantaSeparadora()

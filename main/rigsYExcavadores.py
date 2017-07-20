@@ -63,7 +63,7 @@ class AdministradorDeRigs:
         rigsABorrar = {}
         for rig in self.rigs:
             rig.pasarDia()
-            if diasRestantes == 0:
+            if rig._diasRestantes() == 0:
                 log.escribirLinea("rig cauduco alquiler, modelo: " + rig.modelo().nombre()+"\n")
                 rigsABorrar.add(rig)
         for rig in rigsABorrar:
