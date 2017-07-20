@@ -29,7 +29,7 @@ class Yacimiento:
         #Leer yacimiento y definir volumen, porcentajes y parcelas
         with open(confPath+'yacimiento.txt') as file:
             params = file.readline().split()
-            self.volumen = int(params[0])
+            self.volumen = float(params[0])
             self.porcentajePetroleo = float(params[1])
             self.porcentajeGas = float(params[2])
             self.porcentajeAgua = float(params[3])
@@ -41,8 +41,8 @@ class Yacimiento:
             
             self.parcelas = []
             for line in file:
-                profundidad = int(line[0])
-                presionInicial = int(line[1])
+                profundidad = float(line[0])
+                presionInicial = float(line[1])
                 resistencia = float(line[2])
                 self.parcelas.append(Parcela(profundidad, presionInicial, resistencia, self, formulas))
 

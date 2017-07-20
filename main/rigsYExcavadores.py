@@ -29,7 +29,7 @@ class Excavador:
         archivo = confPath + "excavador.txt"
         with open(archivo, "r") as file:
             linea = file.readLine()
-            self._dolaresPorLitroDeCombustible = int(linea)
+            self._dolaresPorLitroDeCombustible = float(linea)
         self.log = log
 
     def excavar(self, parcela, rig):

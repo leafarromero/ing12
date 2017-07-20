@@ -1,1 +1,1 @@
-nombre metrosPorDia minimoDias costoAlquiler litrosCombustiblePorDia
+nombre | metrosPorDia | minimoDias costoAlquiler litrosCombustiblePorDia

@@ -58,11 +58,21 @@ class Log:
     def balance(self):
         self.log.escribirLinea("ganancias hasta la fecha: " + str(self.dineroGanado - self.dineroPerdido))
 
+class CompradorDeAgua:
+    def __init__(self,log,confPath):
+        self.log = log
+        archivo = confPath + "compradorDeGas.txt"
+        with open(archivo, "r") as file:
+            linea = file.readLine()
+            self.dolaresPorLitroDeAgua = float(linea)
+    def comprar(self,litrosDeAgua):
+        self.log.escribirLinea("se compro " + str(litrosDeAgua) + "litros de agua\n")
+        self.log.gasto(dolaresPorLitroDeAgua*litrosDeAgua)
 
 class Scheduler:
     def __init__(self,log,contexto,politicaAlquilerRigs,politicaExcavacion,politicaBombeo,politicaConstruccionPlantas,politicaConstruccionTanquesAgua,politicaConstruccionTanquesGas,politicaVentaGas,confPath):
         self.excavador = Excavador(log,confPath)
-        self.bombeador = Bombeador(log, contexto.estructuras, contexto.yacimiento)
+        self.bombeador = Bombeador(log, contexto.estructuras, contexto.yacimiento,CompradorDeAgua(log,confPath))
         self.constructor = Constructor(log,contexto.estructuras,confPath)
         self.rigManager = RigManager(log, contexto.administradorDeRig)
         self.vendedorDeGas = VendedorDeGas(log, contexto.estructuras,confPath)

@@ -28,4 +28,4 @@ def cargarModelosDeRig(confPath):
 			file.close()
 			return res
 		lineaParseada = linea.split(" ")
-		res.add(ModeloDeRig(lineaParseada[0],int(lineaParseada[1]),int(lineaParseada[2]),int(lineaParseada[3]),int(lineaParseada[4])))
+		res.add(ModeloDeRig(lineaParseada[0],float(lineaParseada[1]),float(lineaParseada[2]),float(lineaParseada[3]),float(lineaParseada[4])))

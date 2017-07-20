@@ -8,7 +8,7 @@ class VendedorGas:
         archivo = confPath + "vendedorDeGas.txt"
         with open(archivo, "r") as file:
         	linea = file.readLine()
-        	self.dolaresPorLitroDeGas = int(linea)
+        	self.dolaresPorLitroDeGas = float(linea)
 
     def vender_gas(self,cantidad):
         aVender = max(self.estructuras.litrosDeGasAlmacenado(),cantidad)
