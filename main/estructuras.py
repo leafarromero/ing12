@@ -70,12 +70,6 @@ class Estructuras:
             res = res + planta.cantidadQuePuedeProcesarEnDia()
         return res
 
-    def almacenarAgua(self):
-        res = 0
-        for planta in self.plantasSeparadoras:
-            res = res + planta.cantidadQuePuedeProcesarEnDia()
-        return res
-
     def almacenarGas(self, litrosDeGas):
         for tanq in self.tanquesDeGas:
             cant = min(tanq.cantidadQuePuedeAlmacenar(), litrosDeGas)

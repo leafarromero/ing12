@@ -1,9 +1,8 @@
 class Bombeador:
-    def __init__(self, log, estructuras, yacimiento,compradorDeAgua):
+    def __init__(self, log, estructuras, yacimiento):
         self.estructuras = estructuras
         self.yacimiento = yacimiento
         self.log = log
-        self.compradorDeAgua = compradorDeAgua
 
     def extraer(self, pozos):
         for poz in pozos:
@@ -22,6 +21,4 @@ class Bombeador:
         self.yacimiento.reinyectarGas(gas)
 
     def reinyectarAgua(self,litrosAgua):
-        if self.estructuras.litrosDeAguaAlmacenado() < litrosDeAgua:
-            self.compradorDeAgua.comprar(litrosDeAgua - self.estructuras.litrosDeAguaAlmacenado())
-        self.reinyectarAgua(litrosDeAgua)
+        self.yacimiento.reinyectarAgua(litrosDeAgua)
