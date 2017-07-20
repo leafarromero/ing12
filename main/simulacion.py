@@ -5,7 +5,11 @@ Created on 12 jul. 2017
 """
 import math
 
-from yacimiento import Yacimiento, Pozo
+from main.bombeador import Bombeador
+from main.constructor import Constructor
+from main.rigsYExcavadores import Excavador, RigManager, AdministradorDeRigs
+from main.vendedor_gas import VendedorGas
+from .yacimiento import Yacimiento, Pozo
 
 
 class Simulacion:
@@ -67,7 +71,7 @@ class CompradorDeAgua:
             self.dolaresPorLitroDeAgua = float(linea)
     def comprar(self,litrosDeAgua):
         self.log.escribirLinea("se compro " + str(litrosDeAgua) + "litros de agua\n")
-        self.log.gasto(dolaresPorLitroDeAgua*litrosDeAgua)
+        self.log.gasto(self.dolaresPorLitroDeAgua * litrosDeAgua)
 
 class Scheduler:
     def __init__(self,log,contexto,politicaAlquilerRigs,politicaExcavacion,politicaBombeo,politicaConstruccionPlantas,politicaConstruccionTanquesAgua,politicaConstruccionTanquesGas,politicaVentaGas,confPath):
@@ -75,7 +79,7 @@ class Scheduler:
         self.bombeador = Bombeador(log, contexto.estructuras, contexto.yacimiento,CompradorDeAgua(log,confPath))
         self.constructor = Constructor(log,contexto.estructuras,confPath)
         self.rigManager = RigManager(log, contexto.administradorDeRig)
-        self.vendedorDeGas = VendedorDeGas(log, contexto.estructuras,confPath)
+        self.vendedorDeGas = VendedorGas(log, contexto.estructuras,confPath)
 
         self.politicaVentaGas = politicaVentaGas
         self.politicaAlquilerRigs = politicaAlquilerRigs
@@ -206,8 +210,9 @@ class Tanque:
             raise ValueError
         else:
             self._litrosAlmacenados = self._litrosAlmacenados - litros
+
     def litrosAlmacenados(self):
-        return _litrosAlmacenados
+        return self._litrosAlmacenados
 
 
 class PlantaProcesadora:

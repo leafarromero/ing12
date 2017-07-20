@@ -1,4 +1,7 @@
-class Formulas:    
+import math
+
+
+class Formulas:
     def __init__(self, alpha1 = 0.35, alpha2 = 0.0075): 
         if (0.1 <= alpha1 <= 0.6):
             self.alpha1 = alpha1 
@@ -125,10 +128,10 @@ class Parcela:
         self.yacimiento.extraer(potencial)
         return potencial
 
-    def reinyeccion():
-    	presion = self.formulas.reinyeccion(self.presionInicial, self.yacimiento.volumenActual(), self.yacimiento.volumenInicial())
+    def reinyeccion(self):
+        presion = self.formulas.reinyeccion(self.presionInicial, self.yacimiento.volumenActual(), self.yacimiento.volumenInicial())
 
-    def abrirPozo():
+    def abrirPozo(self):
         self.pozo = Pozo(self)
 
     def tienePozo(self):

@@ -12,7 +12,7 @@ class PoliticaGasPost80(PoliticaConstruccionTanquesGas):
         pass
 
     def decidir(self,contexto, constructor):
-        if estan_al_limite(contexto.estructuras().dame_tanques_agua()):
+        if self.estan_al_limite(contexto.estructuras().dame_tanques_agua()):
             constructor.contruir_tanque_gas(1,1,1)
 
     def estan_al_limite(tanques):

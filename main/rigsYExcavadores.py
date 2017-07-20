@@ -1,4 +1,4 @@
-from modeloDeRig import ModeloDeRig,cargarModelosDeRig
+from .modeloDeRig import ModeloDeRig, cargarModelosDeRig
 
 class Rig:
     def __init__(self, modelo, diasRestantes):
@@ -18,7 +18,7 @@ class Rig:
         parcela.pozo.excavar(parcela, self._modelo.metrosPorDia())
 
     def diasRestantes(self):
-        return self._fechaFinDeAlquiler
+        return self._diasRestantes
 
     def pasarDia(self):
         self._diasRestantes = self._diasRestantes - 1
@@ -27,8 +27,8 @@ class Rig:
 class Excavador:
     def __init__(self, log, confPath):
         archivo = confPath + "excavador.txt"
-        with open(archivo, "r") as file:
-            linea = file.readLine()
+        with open(archivo, "r") as as_file:
+            linea = as_file.readLine()
             self._dolaresPorLitroDeCombustible = float(linea)
         self.log = log
 
