@@ -166,29 +166,14 @@ class Contexto:
         self.administradorDeRigs.pasarDia(log)
         self.estructuras.pasarDia()
 
+    def yacimiento(self):
+    	return self.yacimiento
 
-class Formulas:
-    def __init__(self, alpha1=0.3, alpha2=0.01):
-        if 0.1 <= alpha1 <= 0.6:
-            self.alpha1 = alpha1
-        else:
-            raise ValueError
-        if 0.005 <= alpha2 <= 0.01:
-            self.alpha2 = alpha2
-        else:
-            raise ValueError
+    def administradorDeRigs(self):
+    	return self.administradorDeRigs
 
-    def potencialVol(self, presion, volumenRi, numPozos):
-        sumando1 = self.alpha1 * (presion / numPozos)
-        sumando2 = self.alpha2 * ((presion / numPozos) ^ 2)
-        return sumando1 + sumando2
-
-    def presionAlSiguienteDia(self, presionAnterior, volumenR, volumenRi, numPozos):
-        betaI = self.betaI(volumenR, volumenRi, numPozos)
-        return presionAnterior * (math.e ^ -(betaI))
-
-    def betaI(self, volumenR, volumenRi, numPozos):
-        return (0.1 * (volumenRi / volumenR)) / ((numPozos) ^ (2 / 3))
+    def estructuras(self):
+    	return self.estructuras
 
 
 class Tanque:

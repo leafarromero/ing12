@@ -9,7 +9,7 @@ class Bombeador:
         for poz in pozos:
             composicionDeCrudo = (
                 self.yacimiento.porcentajePetroleo(), self.yacimiento.porcentajeGas(), self.yacimiento.porcentajeAgua())
-            materialesSeparados = self.estructuras.procesarCrudo(composicionDeCrudo, poz.extraer())
+            materialesSeparados = self.estructuras.procesarCrudo(composicionDeCrudo, poz.extraer(len(pozos)))
             litrosDeAgua = materialesSeparados[0]
             litrosDeGas = materialesSeparados[1]
             self.log.escribirLinea("litros de gas destilados: " + str(litrosDeGas) + "\n")

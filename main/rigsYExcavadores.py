@@ -15,7 +15,7 @@ class Rig:
         return self._modelo.litrosCombustiblePorDia()
 
     def excavar(self, parcela):
-        parcela.pozo.excavar(parcela, self._modelo.metrosPorDia())
+        parcela.pozo().excavar(self._modelo.metrosPorDia() * parcela.resistencia())
 
     def diasRestantes(self):
         return self._diasRestantes
@@ -56,6 +56,9 @@ class AdministradorDeRigs:
         self.rigs = {}
         self.modelosDeRigs = cargarModelosDeRig(confPath)
 
+    def rigs(self):
+    	return self.rigs
+
     def agregarRig(self, rig):
         self.rigs.add(rig)
 
@@ -63,9 +66,9 @@ class AdministradorDeRigs:
         rigsABorrar = {}
         for rig in self.rigs:
             rig.pasarDia()
-            if rig._diasRestantes() == 0:
+            if rig.diasRestantes() == 0:
                 log.escribirLinea("rig cauduco alquiler, modelo: " + rig.modelo().nombre()+"\n")
                 rigsABorrar.add(rig)
         for rig in rigsABorrar:
-            self.rigs.discart(rig)
+            self.rigs.discard(rig)
         return rigsABorrar

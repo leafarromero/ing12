@@ -123,6 +123,18 @@ class Parcela:
         self.pozo = Excavacion(self)
         self.formulas = formulasParcela
 
+    def resistencia(self):
+        return self.resistencia
+
+    def presion(self):
+        return self.presion()
+
+    def pozo(self):
+        return self.pozo
+
+    def profundidad(self):
+        return self.profundidad
+
     def extraer(self,numPozos):
         potencial = self.formulas.potencial(self.presion, numPozos)
         self.yacimiento.extraer(potencial)
