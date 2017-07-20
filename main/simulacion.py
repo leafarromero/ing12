@@ -9,11 +9,12 @@ from .constructor import Constructor
 from .rigsYExcavadores import Excavador, RigManager, AdministradorDeRigs
 from .vendedor_gas import VendedorGas
 from .yacimiento import Yacimiento
+from .estructuras import Estructuras
 from os import path as dirPath
 
 class Simulacion:
     def __init__(self, politicaAlquilerRigs, politicaExcavacion, politicaBombeo, politicaConstruccionPlantas,
-                 politicaConstruccionTanquesAgua, politicaConstruccionTanquesGas, politicaVentaGas):
+                 politicaConstruccionTanquesAgua, politicaConstruccionTanquesGas, politicaVentaGas,unCriterioDeFinalizacion):
         self.log = Log("log")
         self.diaNumero = 0
         path = dirPath.dirname(dirPath.realpath(__file__)) + "/config/"
@@ -21,7 +22,7 @@ class Simulacion:
         self.scheduler = Scheduler(self.log, self.contexto, politicaAlquilerRigs, politicaExcavacion, politicaBombeo,
                                    politicaConstruccionPlantas, politicaConstruccionTanquesAgua,
                                    politicaConstruccionTanquesGas, politicaVentaGas, path)
-        self.finalizacion = Finalizacion()
+        self.finalizacion = unCriterioDeFinalizacion
 
     def comenzar(self):
         self.log.comenzar()
@@ -33,7 +34,7 @@ class Simulacion:
         self.diaNumero += 1
 
     def finalize(self):
-        fin = self.finalizacion.finalize()
+        fin = self.finalizacion.finalize(self.contexto)
         if fin:
             self.log.ventas()
             self.log.gastos()
@@ -42,16 +43,16 @@ class Simulacion:
 
 class CriterioFinalizacion:
 
-    def finalize(self,contexto,dilusion_critica):
+    def finalize(self,contexto):
         pass
 
 
 class Finalizacion(CriterioFinalizacion):
-    def __init__(self):
-        pass
+    def __init__(self, dilusion_critica):
+        self.dilusion_critica = dilusion_critica
 
-    def finalize(self, contexto, dilusion_critica):
-        if contexto.yacimiento.porcentajePetroleo < dilusion_critica:
+    def finalize(self, contexto):
+        if contexto.yacimiento.porcentajePetroleo < self.dilusion_critica:
             return True
         return False
 
@@ -180,11 +181,6 @@ def TanqueAgua(Tanque):
 
     def retirar(self, volumen):
         self._litros -= volumen
-
-
-class Estructuras(object):
-    def __init__(self, estructuras):
-        self._estructuras = estructuras
 
 
 class Contexto:
