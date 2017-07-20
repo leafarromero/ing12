@@ -20,7 +20,7 @@ class ModeloDeRig:
 
 def cargarModelosDeRig(confPath):
 	miArchivo = confPath + "modelos_de_rig.txt"
-	res = {}
+	res = set()
 	file =open(miArchivo, "r")
 	while True:
 		linea = file.readline()

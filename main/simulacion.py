@@ -111,7 +111,7 @@ class Scheduler:
         self.excavador = Excavador(log, confPath)
         self.bombeador = Bombeador(log, contexto.estructuras, contexto.yacimiento, CompradorDeAgua(log, confPath))
         self.constructor = Constructor(log, contexto.estructuras, confPath)
-        self.rigManager = RigManager(log, contexto.administradorDeRig)
+        self.rigManager = RigManager(log, contexto.administradorDeRigs)
         self.vendedorDeGas = VendedorGas(log, contexto.estructuras, confPath)
 
         self.politicaVentaGas = politicaVentaGas
