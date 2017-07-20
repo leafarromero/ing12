@@ -4,7 +4,7 @@ class Constructor:
         self.estructuras = estructuras
         archivo = confPath + "estructuras.txt"
         with open(archivo, "r") as file:
-            linea = file.readLine()
+            linea = file.readline()
             lineaParseada = linea.split(" ")
             self.costoTanqueAguaPorLitro = lineaParseada[1]
             self.costoTanqueGasPorLitro = lineaParseada[3]

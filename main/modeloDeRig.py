@@ -23,7 +23,7 @@ def cargarModelosDeRig(confPath):
 	res = {}
 	file =open(miArchivo, "r")
 	while True:
-		linea = file.readLine()
+		linea = file.readline()
 		if not linea:
 			file.close()
 			return res

@@ -8,7 +8,7 @@ class Estructuras:
         self._plantasSeparadorasEnConstruccion = {}
         archivo = confPath + "estructuras.txt"
         with open(archivo, "r") as as_file:
-            linea = as_file.readLine()
+            linea = as_file.readline()
             lineaParseada = linea.split(" ")
             self.tiempoTanqueAguaPorLitro = lineaParseada[0]
             self.tiempoTanqueGasPorLitro = lineaParseada[2]

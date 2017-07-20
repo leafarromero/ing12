@@ -7,7 +7,7 @@ class VendedorGas:
         self.log = log
         archivo = confPath + "vendedorDeGas.txt"
         with open(archivo, "r") as file:
-        	linea = file.readLine()
+        	linea = file.readline()
         	self.dolaresPorLitroDeGas = float(linea)
 
     def vender_gas(self,cantidad):

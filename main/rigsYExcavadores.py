@@ -28,7 +28,7 @@ class Excavador:
     def __init__(self, log, confPath):
         archivo = confPath + "excavador.txt"
         with open(archivo, "r") as as_file:
-            linea = as_file.readLine()
+            linea = as_file.readline()
             self._dolaresPorLitroDeCombustible = float(linea)
         self.log = log
 

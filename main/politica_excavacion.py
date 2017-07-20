@@ -12,5 +12,5 @@ class UnaPoliticaExcavacion(PoliticaExcavacion):
     def __init__(self):
         pass
 
-    def decidir(self):
+    def decidir(self,contexto,excavador):
         pass

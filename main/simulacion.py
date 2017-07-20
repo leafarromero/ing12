@@ -96,7 +96,7 @@ class CompradorDeAgua:
         self.log = log
         archivo = confPath + "compradorDeAgua.txt"
         with open(archivo, "r") as file:
-            linea = file.readLine()
+            linea = file.readline()
             self.dolaresPorLitroDeAgua = float(linea)
 
     def comprar(self, litrosDeAgua):
