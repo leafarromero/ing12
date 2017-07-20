@@ -3,13 +3,12 @@ Created on 12 jul. 2017
 
 @author: Luis
 """
-import math
 
 from bombeador import Bombeador
 from constructor import Constructor
 from rigsYExcavadores import Excavador, RigManager, AdministradorDeRigs
 from vendedor_gas import VendedorGas
-from yacimiento import Yacimiento, Pozo
+from yacimiento import Yacimiento
 
 
 class Simulacion:
@@ -36,7 +35,13 @@ class Simulacion:
         return self.finalizacion.finalize()
 
 
-class Finalizacion:
+class CriterioFinalizacion:
+
+    def finalize(self,contexto,dilusion_critica):
+        pass
+
+
+class Finalizacion(CriterioFinalizacion):
     def __init__(self):
         self.log.ventas()
         self.log.gastos()
