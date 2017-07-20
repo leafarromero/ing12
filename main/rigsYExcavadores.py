@@ -45,7 +45,7 @@ class RigManager:
         self.log = log
         self.administradorDeRig = administradorDeRig
 
-    def alquilar(self, modelo, cantidadDeDias, administradorDeRig):
+    def alquilar(self, modelo, cantidadDeDias):
         self.log.escribirLinea("Nuevo rig alquilado, modelo: " + modelo.nombre() + "\n")
         self.log.gasto((modelo.costoAlquilerPorDia()) * cantidadDeDias)
         self.administradorDeRig.agregarRig(Rig(modelo, cantidadDeDias))

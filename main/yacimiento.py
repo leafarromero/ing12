@@ -141,7 +141,7 @@ class Parcela:
         return potencial
 
     def reinyeccion(self):
-        presion = self.formulas.reinyeccion(self.presionInicial, self.yacimiento.volumenActual(), self.yacimiento.volumenInicial())
+        self.presion = self.formulas.reinyeccion(self.presionInicial, self.yacimiento.volumenActual(), self.yacimiento.volumenInicial())
 
     def abrirPozo(self):
         self.pozo = Pozo(self)
@@ -153,7 +153,7 @@ class Parcela:
         volumenR = self.yacimiento.volumenInicial()
         volumenRi = self.yacimiento.volumenActual()
         numPozos = self.yacimiento.numPozos()
-        presion = self.formulas.presionAlSiguienteDia(self.presion, volumenR, volumenRi, numPozos)
+        self.presion = self.formulas.presionAlSiguienteDia(self.presion, volumenR, volumenRi, numPozos)
 
 
 class Excavacion:
