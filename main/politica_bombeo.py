@@ -22,7 +22,7 @@ class UnaPoliticaBombeo(PoliticaBombeo):
         self._dilusion_critica = dilusion_critica
         self._log = log
 
-    def decidir(self,contexto, bombeador, comprador):
+    def decidir(self,contexto, bombeador):
         # Chequear que el pozo no este en dilusion critica
         
         unYacimiento = contexto.yacimiento
@@ -47,7 +47,6 @@ class UnaPoliticaBombeo(PoliticaBombeo):
             volumen_a_reinyectar -= min1
 
             # Comprar porcentaje_agua e inyectar
-            comprador.compradorDeAgua(volumen_a_reinyectar)
             bombeador.reinyectarAgua(volumen_a_reinyectar)
 
 
@@ -88,10 +87,3 @@ class UnaPoliticaBombeo(PoliticaBombeo):
         return reinyectar
 
 
-class CompradorAgua:
-
-    def __init__(self):
-        pass
-
-    def comprar_agua(self,cantidad):
-        pass
