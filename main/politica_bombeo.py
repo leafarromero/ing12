@@ -32,7 +32,7 @@ class UnaPoliticaBombeo(PoliticaBombeo):
         # Chequear si algun pozo hay que reinyectar
         if self.hay_que_reinyectar(unYacimiento):
             # en caso afirmativo no se puede extraer
-            volumen_a_reinyectar = self._volumen_maximo_reinyeccion
+            volumen_a_reinyectar = min(self._volumen_maximo_reinyeccion,contexto.yacimiento().volumenInicial())
 
             # Usar Agua almacenada
             agua_almacenada = contexto.estructuras().litrosDeAguaAlmacenada()

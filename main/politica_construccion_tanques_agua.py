@@ -13,8 +13,9 @@ class PoliticaAguaPost80(PoliticaConstruccionTanquesAgua):
         pass
 
     def decidir(self,contexto, constructor):
-        if self.estan_al_limite(contexto.estructuras().dame_tanques_agua()):
-            constructor.construir_tanque_agua(1,1,1)
+        #if self.estan_al_limite(contexto.estructuras().dame_tanques_agua()):
+        if contexto.estructuras().capacidadMaximaDeTanquesDeAgua() == contexto.estructuras().litrosDeAguaAlmacenada():
+            constructor.construirTanqueAgua(1)
 
     def estan_al_limite(tanques):
 

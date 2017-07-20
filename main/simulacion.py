@@ -110,10 +110,10 @@ class Scheduler:
                  politicaConstruccionPlantas, politicaConstruccionTanquesAgua, politicaConstruccionTanquesGas,
                  politicaVentaGas, confPath):
         self.excavador = Excavador(log, confPath)
-        self.bombeador = Bombeador(log, contexto.estructuras, contexto.yacimiento, CompradorDeAgua(log, confPath))
-        self.constructor = Constructor(log, contexto.estructuras, confPath)
+        self.bombeador = Bombeador(log, contexto.estructuras(), contexto.yacimiento, CompradorDeAgua(log, confPath))
+        self.constructor = Constructor(log, contexto.estructuras(), confPath)
         self.rigManager = RigManager(log, contexto.administradorDeRigs)
-        self.vendedorDeGas = VendedorGas(log, contexto.estructuras, confPath)
+        self.vendedorDeGas = VendedorGas(log, contexto.estructuras(), confPath)
 
         self.politicaVentaGas = politicaVentaGas
         self.politicaAlquilerRigs = politicaAlquilerRigs
