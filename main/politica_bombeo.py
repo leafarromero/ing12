@@ -25,7 +25,7 @@ class UnaPoliticaBombeo(PoliticaBombeo):
     def decidir(self,contexto, bombeador):
         # Chequear que el pozo no este en dilusion critica
         
-        unYacimiento = contexto.yacimiento
+        unYacimiento = contexto.yacimiento()
         if self._dilusion_critica > unYacimiento.porcentajePetroleo:
             return
 
@@ -52,6 +52,12 @@ class UnaPoliticaBombeo(PoliticaBombeo):
 
 
         else:
+            parcelasConPozo = filter((lambda x: x.tienePozo()), unYacimiento().parcelas())
+
+            if parcelasConPozo:
+                parcela = parcelasConPozo[0]
+                potencial = parcela.formulas().potencial(parcela.presion(), unYacimiento.volumenActual())
+ 
             # en caso negativo se extrae de los pozos
             cant_extraer_por_pozo = Formulas().potencialVol()
 
@@ -69,9 +75,9 @@ class UnaPoliticaBombeo(PoliticaBombeo):
             porcentaje_petroleo = contexto.yacimiento.porcentajePetroleo()
             porcentaje_gas = contexto.yacimiento.porcentajeGas()
 
-            cant_pozos_limitado_agua = max_agua_puedo_extraer / cant_extraer_por_pozo * porcentaje_agua
-            cant_pozos_limitado_gas = max_gas_puedo_extraer / cant_extraer_por_pozo * porcentaje_gas
-            cant_pozos_limitado_petroleo = capacidad_procesamiento / cant_extraer_por_pozo * porcentaje_petroleo
+            cant_pozos_limitado_agua = max_agua_puedo_extraer / potencial * porcentaje_agua
+            cant_pozos_limitado_gas = max_gas_puedo_extraer / potencial * porcentaje_gas
+            cant_pozos_limitado_petroleo = capacidad_procesamiento / potencial * porcentaje_petroleo
 
             pozos_necesarios_agua = min(cant_pozos_limitado_gas, cant_pozos_limitado_petroleo,
                                         cant_pozos_limitado_agua)
