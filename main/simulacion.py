@@ -5,11 +5,11 @@ Created on 12 jul. 2017
 """
 import math
 
-from main.bombeador import Bombeador
-from main.constructor import Constructor
-from main.rigsYExcavadores import Excavador, RigManager, AdministradorDeRigs
-from main.vendedor_gas import VendedorGas
-from .yacimiento import Yacimiento, Pozo
+from bombeador import Bombeador
+from constructor import Constructor
+from rigsYExcavadores import Excavador, RigManager, AdministradorDeRigs
+from vendedor_gas import VendedorGas
+from yacimiento import Yacimiento, Pozo
 
 
 class Simulacion:
@@ -38,7 +38,9 @@ class Simulacion:
 
 class Finalizacion:
     def __init__(self):
-        pass
+        self.log.ventas()
+        self.log.gastos()
+        self.log.balance()
 
     def finalize(self, contexto, dilusion_critica):
         if contexto.yacimiento.porcentajePetroleo < dilusion_critica:
@@ -84,7 +86,7 @@ class Log:
 class CompradorDeAgua:
     def __init__(self, log, confPath):
         self.log = log
-        archivo = confPath + "compradorDeGas.txt"
+        archivo = confPath + "compradorDeAgua.txt"
         with open(archivo, "r") as file:
             linea = file.readLine()
             self.dolaresPorLitroDeAgua = float(linea)

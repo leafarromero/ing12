@@ -1,5 +1,5 @@
-from .politica_ejecucion import PoliticaEjecucion
-from .simulacion import Bombeador, TanqueAgua
+from politica_ejecucion import PoliticaEjecucion
+from simulacion import Bombeador, TanqueAgua
 
 class PoliticaBombeo(PoliticaEjecucion):
 

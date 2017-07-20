@@ -1,4 +1,4 @@
-from .tanques_gas import TanqueGas
+from tanques_gas import TanqueGas
 
 class VendedorGas:
 

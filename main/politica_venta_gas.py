@@ -1,5 +1,5 @@
-from .politica_ejecucion import PoliticaEjecucion
-from .vendedor_gas import VendedorGas
+from politica_ejecucion import PoliticaEjecucion
+from vendedor_gas import VendedorGas
 
 class PoliticaVentaGas(PoliticaEjecucion):
 
