@@ -1,5 +1,29 @@
 from estructuraEnConstruccion import EstructuraConstruccion
 
+class PlantaProcesadora:
+    def __init__(self, litrosPorDia, vendedorDePetroleo):
+        self._litrosPorDia = litrosPorDia
+        self.litrosProcesadosEnDia = 0
+        self.vendedorDePetroleo = vendedorDePetroleo
+
+    def cantidadQuePuedeProcesarEnDia(self):
+        return (self._litrosPorDia) - (self.litrosProcesadosEnDia)
+
+    def procesarCrudo(self, composicionDeCrudo, litrosDeCrudo):
+        if (litrosDeCrudo > self.cantidadQuePuedeProcesarEnDia()):
+            raise ValueError
+        litrosDePetroleo = composicionDeCrudo[0] * litrosDeCrudo / 100
+        litrosDeAgua = composicionDeCrudo[1] * litrosDeCrudo / 100
+        litrosDeGas = composicionDeCrudo[2] * litrosDeCrudo / 100
+        self.vendedorDePetroleo.vender(litrosDePetroleo)
+        return (litrosDeAgua, litrosDeGas)
+
+    def pasarDia(self):
+        self.litrosProcesadosEnDia = 0
+
+    def litrosPorDia(self):
+        return self._litrosPorDia
+
 
 class Tanque:
     def capacidad(self):
@@ -51,13 +75,14 @@ class TanqueAgua(Tanque):
         self._litros -= volumen
 
 class Estructuras:
-    def __init__(self,confPath):
+    def __init__(self,confPath,vendedorDePetroleo):
         self.tanquesDeAgua = set()
         self.tanquesDeGas = set()
         self.plantasSeparadoras = set()
         self._tanquesDeAguaEnConstruccion = set()
         self._tanquesDeGasEnConstruccion = set()
         self._plantasSeparadorasEnConstruccion = set()
+        self.vendedorDePetroleo = vendedorDePetroleo
         archivo = confPath + "estructuras.txt"
         with open(archivo, "r") as as_file:
             linea = as_file.readline()
@@ -67,13 +92,13 @@ class Estructuras:
             self.tiempoPlantaPorLitro = int(lineaParseada[4])
 
     def pasarDia(self):
-        for planta in self.plantasSeparadoras:
+        for planta in set(self.plantasSeparadoras):
             planta.pasarDia()
-        for tanqAg in self._tanquesDeAguaEnConstruccion:
+        for tanqAg in set(self._tanquesDeAguaEnConstruccion):
             tanqAg.pasarDia()
-        for tanqG in self._tanquesDeGasEnConstruccion:
+        for tanqG in set(self._tanquesDeGasEnConstruccion):
             tanqG.pasarDia()
-        for planta in self._plantasSeparadorasEnConstruccion:
+        for planta in set(self._plantasSeparadorasEnConstruccion):
             planta.pasarDia()
 
 
@@ -193,7 +218,7 @@ class Estructuras:
     def construirPlantaSeparadora(self,litros,log):
         def agregarNuevaPlantaProcesadora():
             log.escribirLinea("terminado planta separadora, litros: " + str(litros) + "\n")
-            self.plantasSeparadoras.add(PlantaProcesadoras(litros))
+            self.plantasSeparadoras.add(PlantaProcesadora(litros,self.vendedorDePetroleo))
         def quitarConstructorPlantaProcesadora(constructor):
             self._plantasSeparadorasEnConstruccion.discard(constructor)
         self._plantasSeparadorasEnConstruccion.add(EstructuraConstruccion(litros*self.tiempoPlantaPorLitro,litros,agregarNuevaPlantaProcesadora,quitarConstructorPlantaProcesadora))

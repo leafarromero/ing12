@@ -18,7 +18,7 @@ class Simulacion:
         self.log = Log("log")
         self.diaNumero = 0
         path = dirPath.dirname(dirPath.realpath(__file__)) + "/config/"
-        self.contexto = Contexto(path)
+        self.contexto = Contexto(VendedorDePetroleo(path,self.log), path)
         self.scheduler = Scheduler(self.log, self.contexto, politicaAlquilerRigs, politicaExcavacion, politicaBombeo,
                                    politicaConstruccionPlantas, politicaConstruccionTanquesAgua,
                                    politicaConstruccionTanquesGas, politicaVentaGas, path)
@@ -137,10 +137,10 @@ class Scheduler:
 
 
 class Contexto:
-    def __init__(self, confPath):
+    def __init__(self,vendedorDePetroleo, confPath):
         self._yacimiento = Yacimiento(confPath)
         self._administradorDeRigs = AdministradorDeRigs(confPath)
-        self._estructuras = Estructuras(confPath)
+        self._estructuras = Estructuras(confPath,vendedorDePetroleo)
 
     def pasarDia(self, log):
         self._yacimiento.pasarDia()
@@ -181,34 +181,10 @@ class Tanque:
         return self._litrosAlmacenados
 
 
-class PlantaProcesadora:
-    def __init__(self, litrosPorDia, vendedorDePetroleo):
-        self._litrosPorDia = litrosPorDia
-        self.litrosProcesadosEnDia = 0
-        self.vendedorDePetroleo = vendedorDePetroleo
-
-    def cantidadQuePuedeProcesarEnDia(self):
-        return (self._litrosPorDia) - (self.litrosProcesadosEnDia)
-
-    def procesarCrudo(self, composicionDeCrudo, litrosDeCrudo):
-        if (litrosDeCrudo > self.cantidadQuePuedeProcesarEnDia()):
-            raise ValueError
-        litrosDePetroleo = composicionDeCrudo[0] * litrosDeCrudo / 100
-        litrosDeAgua = composicionDeCrudo[1] * litrosDeCrudo / 100
-        litrosDeGas = composicionDeCrudo[2] * litrosDeCrudo / 100
-        self.vendedorDePetroleo.vender(litrosDePetroleo)
-        return (litrosDeAgua, litrosDeGas)
-
-    def pasarDia(self):
-        self.litrosProcesadosEnDia = 0
-
-    def litrosPorDia(self):
-        return self._litrosPorDia
-
-
 class VendedorDePetroleo:
-    def __init__(self, dolarPorLitro, log):
-        self.dolarPorLitro = dolarPorLitro
+    def __init__(self, path, log):
+        file = open(path+"vendedorDePetroleo.txt")
+        self.dolarPorLitro = int(file.readline())
         self.log = log
 
     def vender(self, litrosDePetroleo):
