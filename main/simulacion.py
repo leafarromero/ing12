@@ -9,17 +9,18 @@ from .constructor import Constructor
 from .rigsYExcavadores import Excavador, RigManager, AdministradorDeRigs
 from .vendedor_gas import VendedorGas
 from .yacimiento import Yacimiento
-
+from os import path as dirPath
 
 class Simulacion:
     def __init__(self, politicaAlquilerRigs, politicaExcavacion, politicaBombeo, politicaConstruccionPlantas,
                  politicaConstruccionTanquesAgua, politicaConstruccionTanquesGas, politicaVentaGas):
         self.log = Log("log")
         self.diaNumero = 0
-        self.contexto = Contexto("./config/")
+        path = dirPath.dirname(dirPath.realpath(__file__)) + "/config/"
+        self.contexto = Contexto(path)
         self.scheduler = Scheduler(self.log, self.contexto, politicaAlquilerRigs, politicaExcavacion, politicaBombeo,
                                    politicaConstruccionPlantas, politicaConstruccionTanquesAgua,
-                                   politicaConstruccionTanquesGas, politicaVentaGas, "./config/")
+                                   politicaConstruccionTanquesGas, politicaVentaGas, path)
         self.finalizacion = Finalizacion()
 
     def comenzar(self):
@@ -38,7 +39,6 @@ class Simulacion:
             self.log.gastos()
             self.log.balance()
         return fin
-
 
 class CriterioFinalizacion:
 
