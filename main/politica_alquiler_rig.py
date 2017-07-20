@@ -14,7 +14,7 @@ class UnaPoliticaAlquilerRig(PoliticaAlquilerRig):
         pass
 
     def decidir(self,contexto,rigManager):
-        if len(contexto.administradorDeRigs.rigs()) == 0 :
-			modelo = contexto.administradorDeRigs.modelosDeRigs().pop()
+        if len(contexto.administradorDeRigs().rigs()) == 0 :
+			modelo = contexto.administradorDeRigs().modelosDeRigs().pop()
 			rigManager.alquilar(modelo,12)
 

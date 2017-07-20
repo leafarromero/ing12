@@ -52,7 +52,7 @@ class Finalizacion(CriterioFinalizacion):
         self.dilusion_critica = dilusion_critica
 
     def finalize(self, contexto):
-        if contexto.yacimiento.porcentajePetroleo < self.dilusion_critica:
+        if contexto.yacimiento().porcentajePetroleo < self.dilusion_critica:
             return True
         return False
 
@@ -185,23 +185,23 @@ def TanqueAgua(Tanque):
 
 class Contexto:
     def __init__(self, confPath):
-        self.yacimiento = Yacimiento(confPath)
-        self.administradorDeRigs = AdministradorDeRigs(confPath)
-        self.estructuras = Estructuras(confPath)
+        self._yacimiento = Yacimiento(confPath)
+        self._administradorDeRigs = AdministradorDeRigs(confPath)
+        self._estructuras = Estructuras(confPath)
 
     def pasarDia(self, log):
-        self.yacimiento.pasarDia()
-        self.administradorDeRigs.pasarDia(log)
-        self.estructuras.pasarDia()
+        self._yacimiento.pasarDia()
+        self._administradorDeRigs().pasarDia(log)
+        self._estructuras.pasarDia()
 
     def yacimiento(self):
-        return self.yacimiento
+        return self._yacimiento
 
     def administradorDeRigs(self):
-        return self.administradorDeRigs
+        return self._administradorDeRigs
 
     def estructuras(self):
-        return self.estructuras
+        return self._estructuras
 
 
 class Tanque:

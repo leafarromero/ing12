@@ -12,7 +12,7 @@ class PoliticaSepPost80(PoliticaConstruccionTanquesSep):
         pass
 
     def decidir(self,contexto, constructor):
-        estructuras = contexto.estructuras
+        estructuras = contexto.estructuras()
 
         cant_puede_procesar = estructuras.cantidadQuePuedeProcesarEnDiaAFuturo() \
                               + estructuras.cantidadQuePuedeProcesarEnDia()

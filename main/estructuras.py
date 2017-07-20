@@ -42,7 +42,7 @@ class Estructuras:
             res = res + tanque.litrosMaximo()
         return res
 
-    def litrosDeAguaAlmacenado(self):
+    def litrosDeAguaAlmacenada(self):
         res = 0
         for tanque in self.tanquesDeAgua:
             res = res + tanque.litros()
@@ -130,7 +130,7 @@ class Estructuras:
             self.tanquesDeAgua.add(TanqueDeAgua(litros))
         def quitarConstructorTanqueAgua(constructor):
             self._tanquesDeGasEnConstruccion.discard(constructor)
-        self._tanquesDeAguaEnConstruccion.add(EstructuraConstruccion(litros*self.tiempoTanqueAguaPorLitro,agregarNuevoTanqueAgua,quitarConstructorTanqueAgua))
+        self._tanquesDeAguaEnConstruccion.add(EstructuraConstruccion(litros*self.tiempoTanqueAguaPorLitro,litros,agregarNuevoTanqueAgua,quitarConstructorTanqueAgua))
 
     def construirTanqueGas(self,litros,log):
         def agregarNuevoTanqueGas():
@@ -138,7 +138,7 @@ class Estructuras:
             self.tanquesDeGas.add(TanqueDeGas(litros))
         def quitarConstructorTanqueGas(constructor):
             self._tanquesDeGasEnConstruccion.discard(constructor)
-        self._tanquesDeGasEnConstruccion.add(EstructuraConstruccion(litros*self.tiempoTanqueGasPorLitro,agregarNuevoTanqueGas,quitarConstructorTanqueGas))
+        self._tanquesDeGasEnConstruccion.add(EstructuraConstruccion(litros*self.tiempoTanqueGasPorLitro,litros,agregarNuevoTanqueGas,quitarConstructorTanqueGas))
 
     def construirPlantaSeparadora(self,litros,log):
         def agregarNuevaPlantaProcesadora():
@@ -146,7 +146,7 @@ class Estructuras:
             self.plantasSeparadoras.add(PlantaProcesadoras(litros))
         def quitarConstructorPlantaProcesadora(constructor):
             self.plantasSeparadoras.discard(constructor)
-        self.plantasSeparadoras.add(EstructuraConstruccion(litros*self.tiempoPlantaPorLitro,agregarNuevaPlantaProcesadora,quitarConstructorPlantaProcesadora))
+        self.plantasSeparadoras.add(EstructuraConstruccion(litros*self.tiempoPlantaPorLitro,litros,agregarNuevaPlantaProcesadora,quitarConstructorPlantaProcesadora))
 
     def capacidadMaximaDeTanquesDeAguaAFuturo(self):
         res = 0

@@ -22,7 +22,7 @@ class Bombeador:
         self.yacimiento.reinyectarGas(gas)
 
     def reinyectarAgua(self,litrosAgua):
-        aguaAInyectarAlmacenada = min(self.estructuras.litrosDeAguaAlmacenado(),litrosDeAgua)
+        aguaAInyectarAlmacenada = min(self.estructuras.litrosDeAguaAlmacenada(),litrosDeAgua)
         self.estructuras.retirarAgua(aguaAInyectarAlmacenada)
         if aguaAInyectarAlmacenada < litrosDeAgua:
             self.compradorDeAgua.comprar(litrosDeAgua - aguaAInyectarAlmacenada)
