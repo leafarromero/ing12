@@ -1,5 +1,5 @@
 from politica_ejecucion import PoliticaEjecucion
-from vendedor_gas import VendedorGas
+
 
 class PoliticaVentaGas(PoliticaEjecucion):
 
@@ -15,3 +15,5 @@ class UnaPoliticaVentaGas(PoliticaVentaGas):
         almacenada = contexto.estructuras.litrosDeGasAlmacenado()
         if almacenada > max_gas:
             vendedor.vender(almacenada - max_gas)
+
+
