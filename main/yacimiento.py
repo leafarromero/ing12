@@ -32,83 +32,84 @@ class Yacimiento:
         #Leer yacimiento y definir volumen, porcentajes y parcelas
         with open(confPath+'yacimiento.txt') as file:
             params = file.readline().split()
-            self.volumen = float(params[0])
-            self.porcentajePetroleo = float(params[1])
-            self.porcentajeGas = float(params[2])
-            self.porcentajeAgua = float(params[3])
+            self._volumenActual = float(params[0])
+            self._volumenInicial = self._volumenActual
+            self._porcentajePetroleo = float(params[1])
+            self._porcentajeGas = float(params[2])
+            self._porcentajeAgua = float(params[3])
 
             params = file.readline().split()
             alfa1 = float(params[0])
             alfa2 = float(params[1])
             formulas = Formulas(alfa1, alfa2)
             
-            self.parcelas = []
+            self._parcelas = []
             for line in file:
                 profundidad = float(line[0])
                 presionInicial = float(line[1])
                 resistencia = float(line[2])
-                self.parcelas.append(Parcela(profundidad, presionInicial, resistencia, self, formulas))
+                self._parcelas.append(Parcela(profundidad, presionInicial, resistencia, self, formulas))
 
     def parcelas(self):
-        return self.parcelas
+        return self._parcelas
 
     def porcentajePetroleo(self):
-        return self.porcentajePetroleo
+        return self._porcentajePetroleo
 
     def porcentajeAgua(self):
-        return self.porcentajeGas
+        return self._porcentajeAgua
 
     def porcentajeGas(self):
-        return self.porcentajeAgua
+        return self._porcentajeGas
 
     def volumenInicial(self):
-        return self.volumenInicial
+        return self._volumenInicial
 
     def volumenActual(self):
-        return self.volumenActual
+        return self._volumenActual
 
     def pasarDia(self):
-        for p in self.parcelas:
+        for p in self._parcelas:
             p.pasarDia()
 
     def extraer(self, cantProducto):
-        self.volumenActual -= cantProducto
+        self._volumenActual -= cantProducto
 
     def reinyectarAgua(self, cantAgua):
         # sacar las cuentas para cambiar el porcentaje y volumen
-        volumenNuevo = self.volumenActual + cantAgua
+        volumenNuevo = self._volumenActual + cantAgua
 
-        porcNuevoAgua = float(self.volumenActual * self.porcentajeAgua + cantAgua * 100) / volumenNuevo
-        porcNuevoGas = float(self.volumenActual * self.porcentajeGas) / volumenNuevo
-        porcNuevoProducto = float(self.volumenActual * self.porcentajePetroleo) / volumenNuevo
+        porcNuevoAgua = float(self._volumenActual * self._porcentajeAgua + cantAgua * 100) / volumenNuevo
+        porcNuevoGas = float(self._volumenActual * self._porcentajeGas) / volumenNuevo
+        porcNuevoProducto = float(self._volumenActual * self._porcentajePetroleo) / volumenNuevo
 
-        self.volumenActual = volumenNuevo
-        self.porcentajeAgua = porcNuevoAgua
-        self.porcentajePetroleo = porcNuevoProducto
-        self.porcentajeGas = porcNuevoGas
+        self._volumenActual = volumenNuevo
+        self._porcentajeAgua = porcNuevoAgua
+        self._porcentajePetroleo = porcNuevoProducto
+        self._porcentajeGas = porcNuevoGas
 
-        for p in self.parcelas:
+        for p in self._parcelas:
             p.reinyeccion()
 
     def reinyectarGas(self, cantGas):
         # sacar las cuentas para cambiar el porcentaje y volumen
-        volumenNuevo = self.volumenActual + cantGas
+        volumenNuevo = self._volumenActual + cantGas
 
-        porcNuevoAgua = float(self.volumenActual * self.porcentajeAgua) / volumenNuevo
-        porcNuevoGas = float(self.volumenActual * self.porcentajeGas + cantGas * 100) / volumenNuevo
-        porcNuevoPetroleo = float(self.volumenActual * self.porcentajePetroleo) / volumenNuevo
+        porcNuevoAgua = float(self._volumenActual * self._porcentajeAgua) / volumenNuevo
+        porcNuevoGas = float(self._volumenActual * self._porcentajeGas + cantGas * 100) / volumenNuevo
+        porcNuevoPetroleo = float(self._volumenActual * self._porcentajePetroleo) / volumenNuevo
 
-        self.volumenActual = volumenNuevo
-        self.porcentajeAgua = porcNuevoAgua
-        self.porcentajePetroleo = porcNuevoPetroleo
-        self.porcentajeGas = porcNuevoGas
+        self._volumenActual = volumenNuevo
+        self._porcentajeAgua = porcNuevoAgua
+        self._porcentajePetroleo = porcNuevoPetroleo
+        self._porcentajeGas = porcNuevoGas
 
-        for p in self.parcelas:
+        for p in self._parcelas:
             p.reinyeccion()
 
     def numPozos(self):
         res = 0
-        for p in self.parcelas:
+        for p in self._parcelas:
             res = res + 1 if p.tienePozo() else res
         return res
 
