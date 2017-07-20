@@ -80,10 +80,10 @@ class UnaPoliticaBombeo(PoliticaBombeo):
             bombeador.extraer(pozos[1:pozos_necesarios_agua])
 
     def hay_que_reinyectar(self,yacimiento):
-        __reinyectar = False
+        _reinyectar = False
         for parcela in filter((lambda parcela: parcela.tienePozo()), yacimiento.parcelas()):
             if parcela.presion() < self._presion_critica:
-                reinyectar = True
-        return reinyectar
+                _reinyectar = True
+        return _reinyectar
 
 
