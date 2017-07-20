@@ -32,7 +32,12 @@ class Simulacion:
         self.diaNumero += 1
 
     def finalize(self):
-        return self.finalizacion.finalize()
+        fin = self.finalizacion.finalize()
+        if fin:
+            self.log.ventas()
+            self.log.gastos()
+            self.log.balance()
+        return fin
 
 
 class CriterioFinalizacion:
@@ -43,9 +48,7 @@ class CriterioFinalizacion:
 
 class Finalizacion(CriterioFinalizacion):
     def __init__(self):
-        self.log.ventas()
-        self.log.gastos()
-        self.log.balance()
+        pass
 
     def finalize(self, contexto, dilusion_critica):
         if contexto.yacimiento.porcentajePetroleo < dilusion_critica:
